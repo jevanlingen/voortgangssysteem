@@ -1,0 +1,43 @@
+@(dashboards: List[Dashboard], dashboardForm: Form[Dashboard])
+
+@import helper._
+
+@main("Dashboardsoverzicht") {
+    
+    <h1>@dashboards.size() dashboards(s)</h1>
+    <hr />
+    
+    <div id="pagina">
+    	<div class="fullFrame">
+    		<h3>Overzicht</h3>
+    		<hr />
+    
+			    <ul>
+			        @for(dashboard <- dashboards) {
+			            <li>
+			                @dashboard.label
+			                
+			                @form(routes.DashboardSettings.index(dashboard.id)) {
+			                    <input type="submit" value="settings">
+			                }
+			                @form(routes.Application.deleteDashboard(dashboard.id)) {
+			                    <input type="submit" value="Delete">
+			                }
+			            </li>
+			        }
+			    </ul>
+		</div>
+		
+		<div class="fullFrame">	    
+		    <h3>Voeg een nieuw dashboard toe</h3>
+		    <hr />
+		    @form(routes.Application.createDashboard()) {
+		        
+		        @inputText(dashboardForm("label"), '_label -> "Naam dashboard") 
+		        
+		        <input type="submit" value="Create">
+		        
+		    }
+		</div>
+	</div>    
+}

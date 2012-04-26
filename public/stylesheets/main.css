@@ -1,0 +1,44 @@
+/* Standard */ 
+h1, h2, h3 {
+	margin: 0;
+}
+
+dt {
+	display: inline
+}
+
+dd {
+	display: inline;
+	margin-left: 10px;
+}
+
+.hide {
+	display: none;
+}
+/* END standard */
+#pagina {
+	border: 1px solid black;
+	padding: 5px 15px 15px 15px;
+}
+
+.fullFrame {
+	border: 1px solid black;
+	padding: 10px;
+	margin-top: 10px;
+}
+
+/* Settings pagina */
+#projectCheckboxes {
+	-moz-column-count: 4;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 4;
+	-webkit-column-gap: 20px;
+	column-count: ;
+	column-gap: 20px;
+	padding-bottom: 1em;
+}
+
+#projectCheckboxes dl {
+	margin-top: 0;	
+	margin-bottom: 0;
+}

@@ -1,0 +1,43 @@
+@(dashboard: Dashboard, settingsForm: Form[models.Dashboard], projectManagers: List[API_models.Projectmanager], projects: List[Project])
+
+@import helper._
+
+@main("Settings van dashboard") {
+        
+	<script src="@routes.Assets.at("javascripts/settings.js")" type="text/javascript"></script>
+    
+    <h1>Instellingen - @dashboard.label</h1>
+    <a href="/">Terug naar dashboardoverzicht</a>
+    <hr />
+    
+    <div id="pagina">
+    	<div class="fullFrame">
+    		<h3>Keuze projecten</h3>
+    		<hr /> 
+    		@form(routes.DashboardSettings.saveSetting(dashboard.id)) {    			
+			    @Project.getProjectsByDashboardId(dashboard.id);
+    			@*********************
+				 * ALLE GEKOZEN PROJECTEN IN DB, niet de NIET gekozen ids; Kan later problemen opleveren bij het automatisch aanvullen van nieuwe projecten!!! *
+				 *********************@
+			    @select(settingsForm("projectManager"), options(controllers.DashboardSettings.getProjectManagers(projectManagers)), '_label -> "Project manager" )			    
+			    	
+			   <div id="projectCheckboxes">
+			   		@for(i <- 0 until projects.size) {
+				   		@checkbox(settingsForm("projectContainer["+i+"]"), 'value -> (projects.get(i).getFuo_id+","+projects.get(i).getOwner_id+","+projects.get(i).getName), 'id -> projects.get(i).getFuo_id, '_class ->  (projects.get(i).getOwner_id +" hide"), '_label -> projects.get(i).getName)
+				   	}
+			   		
+			   		@*********************
+				    @for(i <- 0 until projects.get("id").size() ) {
+				    * @projects.foreach{ project => @checkbox(settingsForm("projects["+project.getFuo_id+"]"), 'id -> project.getId, '_class ->  (project.getOwner_id +" hide"), '_label -> project.getName) } *
+				    * @checkbox(settingsForm("projects["+project_id_fuo+"]"), 'id -> project.getId, '_class ->  (project.getOwner_id +" hide"), '_label -> project.getName) *
+					*	@checkbox(settingsForm("projectids["+i+"]"), 'id -> projects.get("id").get(i), 'value -> projects.get("id").get(i), '_class ->  (projects.get("owner_id").get(i) +" hide"), '_label -> projects.get("name").get(i)) *
+				   	* } *
+				   	*********************@
+				</div>
+		        
+		        <input type="submit" value="Save">		        
+	    	}
+	    </div>
+    </div>
+    
+}
