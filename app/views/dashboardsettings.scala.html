@@ -1,5 +1,6 @@
-@(dashboard: Dashboard, settingsForm: Form[models.Dashboard], projectManagers: List[API_models.Projectmanager], projects: List[Project])
+@(dashboard: Dashboard, settingsForm: Form[models.Dashboard], mapOfFormWidgets : Map[Long, Form[models.Widget]], projectManagers: List[API_models.Projectmanager], projects: List[DashboardProject])
 
+@* @import helper.bootstrap._ *@
 @import helper._
 
 @main("Settings van dashboard") {
@@ -14,8 +15,7 @@
     	<div class="fullFrame">
     		<h3>Keuze projecten</h3>
     		<hr /> 
-    		@form(routes.DashboardSettings.saveSetting(dashboard.id)) {    			
-			    @Project.getProjectsByDashboardId(dashboard.id);
+    		@form(routes.DashboardSettings.saveSetting(dashboard.id)) {
     			@*********************
 				 * ALLE GEKOZEN PROJECTEN IN DB, niet de NIET gekozen ids; Kan later problemen opleveren bij het automatisch aanvullen van nieuwe projecten!!! *
 				 *********************@
@@ -25,19 +25,38 @@
 			   		@for(i <- 0 until projects.size) {
 				   		@checkbox(settingsForm("projectContainer["+i+"]"), 'value -> (projects.get(i).getFuo_id+","+projects.get(i).getOwner_id+","+projects.get(i).getName), 'id -> projects.get(i).getFuo_id, '_class ->  (projects.get(i).getOwner_id +" hide"), '_label -> projects.get(i).getName)
 				   	}
-			   		
-			   		@*********************
-				    @for(i <- 0 until projects.get("id").size() ) {
-				    * @projects.foreach{ project => @checkbox(settingsForm("projects["+project.getFuo_id+"]"), 'id -> project.getId, '_class ->  (project.getOwner_id +" hide"), '_label -> project.getName) } *
-				    * @checkbox(settingsForm("projects["+project_id_fuo+"]"), 'id -> project.getId, '_class ->  (project.getOwner_id +" hide"), '_label -> project.getName) *
-					*	@checkbox(settingsForm("projectids["+i+"]"), 'id -> projects.get("id").get(i), 'value -> projects.get("id").get(i), '_class ->  (projects.get("owner_id").get(i) +" hide"), '_label -> projects.get("name").get(i)) *
-				   	* } *
-				   	*********************@
 				</div>
 		        
-		        <input type="submit" value="Save">		        
+		        <input type="submit" value="Save">
 	    	}
 	    </div>
-    </div>
-    
+	    
+	    @for(dashboardProject <- DashboardProject.getProjectsByDashboardId(dashboard.id)) {
+	    	<div id="projectTab_@dashboardProject.getId" class="projectTab">@dashboardProject.getName</div>
+		}			    
+	    
+	    @form(routes.Widget.saveWidgets(dashboard.id), 'id -> "settingsWidgetForm") {
+	    	<div id="widgetSettings" class="fullFrame">
+			    @for(dashboardProject <- DashboardProject.getProjectsByDashboardId(dashboard.id)) {				    
+			   		<div id="widgetSetting_@dashboardProject.getId" class="fullFrame">
+			   			<h3>Widgets</h3>
+		    			<hr />
+		    			@for(widget <- models.Widget.getWidgetsByProjectId(dashboardProject.getId)) {
+		    				<div class="widgetSettingFrame">
+		    					<h3>@widget.getName</h3>
+		    					<hr />
+		    					<input type="hidden" name="id" value="@widget.getId" />
+		    					@checkbox(mapOfFormWidgets(widget.getId)("activated"), '_label -> "Toon op dashboard")
+		    					@inputText(mapOfFormWidgets(widget.getId)("updateTime"), '_label -> "Update time", '_showConstraints -> false )
+		    				</div>
+		    			}	 
+
+		    			<div style="clear:both"></div>   			
+			   		</div>
+			    }
+			    
+			    <input type="submit" value="Save">
+		    </div>
+	    }
+    </div>   
 }

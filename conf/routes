@@ -12,8 +12,11 @@ POST	/deleteDashboard:id/delete		controllers.Application.deleteDashboard(id: Lon
 GET		/getDashboard/Settings:id		controllers.DashboardSettings.index(id: Long)
 POST	/saveSetting:id					controllers.DashboardSettings.saveSetting(id: Long)
 
+# Widget
+POST	/saveWidgets:id					controllers.Widget.saveWidgets(id: Long)
+
 # Javascript routing
-# GET     /assets/javascripts/routes		controllers.Application.javascriptRoutes()
+# GET	/assets/javascripts/routes		controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file					controllers.Assets.at(path="/public", file)

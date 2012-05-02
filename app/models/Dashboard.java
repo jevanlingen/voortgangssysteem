@@ -1,6 +1,5 @@
 package models;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.*;
@@ -36,7 +35,7 @@ public class Dashboard extends Model {
 	}
 
 	public static void delete(Long id) {
-		//TODO: Project do still stay alive in DB!
+		DashboardProject.deleteProjectsByDashboard_id(id);
 		getDashboard(id).delete();
 	}
 	

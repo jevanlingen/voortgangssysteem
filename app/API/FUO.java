@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.Project;
+import models.DashboardProject;
 
 import API_models.Projectmanager;
 
@@ -50,7 +50,7 @@ public class FUO {
 		return projectManagers;
 	}
 	
-	public static List<Project> getProjectsProjectManagers() throws SQLException {
+	public static List<DashboardProject> getProjectsProjectManagers() throws SQLException {
 		String sql = "SELECT DISTINCT id, name, owner_id FROM view_voortgangsdashboard_project WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL";
 		Map<String, List<String>> result = FUOconnection.executeSQLStatement(
 				sql, new DbProcessor() {
@@ -82,9 +82,9 @@ public class FUO {
 					}
 				});
 		
-		List<Project> projects = new ArrayList<Project>();
+		List<DashboardProject> projects = new ArrayList<DashboardProject>();
 		for (int i = 0; i < result.get("id").size(); i++) {
-			projects.add( new Project( Integer.parseInt(result.get("id").get(i)), Integer.parseInt(result.get("owner_id").get(i)), result.get("name").get(i)) );
+			projects.add( new DashboardProject( Integer.parseInt(result.get("id").get(i)), Integer.parseInt(result.get("owner_id").get(i)), result.get("name").get(i)) );
 		}	
 		
 		return projects;

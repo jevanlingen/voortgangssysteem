@@ -9,7 +9,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
-public class Project extends Model {
+public class DashboardProject extends Model {
 	
 	@Id
 	@GeneratedValue
@@ -24,26 +24,48 @@ public class Project extends Model {
 	
 	private Long dashboard_id;
 	
-	public static Finder<Long, Project> find = new Finder<Long, Project>(Long.class, Project.class);
+	public static Finder<Long, DashboardProject> find = new Finder<Long, DashboardProject>(Long.class, DashboardProject.class);
 
-	public Project(int fuo_id, int owner_id, String name) {
+	public DashboardProject(int fuo_id, int owner_id, String name) {
 		this.fuo_id = fuo_id;
 		this.owner_id = owner_id;
 		this.name = name;
 	}
 	
-	public static List<Project> getProjectsByDashboardId(Long id) {
+	public static List<DashboardProject> getProjectsByDashboardId(Long id) {
 		return find.where()
 	            .eq("dashboard_id", id)
 	            .findList();
 	}
 	
-	public static Project getProject(Long id) {
+	public static DashboardProject getProject(Long id) {
 		return find.byId(id);
 	}
 	
-	public static void create(Project project) {
+	public static boolean projectExist(int fuo_id, int owner_id, Long dashboard_id) {
+		int rowCount = find.where()
+		 .eq("fuo_id", fuo_id)
+         .eq("owner_id", owner_id)
+         .eq("dashboard_id", dashboard_id)
+         .findRowCount();
+		
+		return (rowCount > 0) ? true : false;
+	}
+	
+	public static void create(DashboardProject project) {
 		project.save();
+	}
+	
+	public static void delete(Long id) {
+		find.byId(id).delete();
+	}
+	
+	public static void deleteProjectsByDashboard_id(Long dashboard_id) {
+		List<DashboardProject> dbprojects = getProjectsByDashboardId(dashboard_id);
+		for (DashboardProject dbproject : dbprojects) {
+			Widget.deleteWidgetsByProject_id(dbproject.getId());
+			dbproject.delete();
+		}
 	}
 
 	public Long getId() {

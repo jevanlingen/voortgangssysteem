@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import play.Logger;
+
 public class FUOconnection {
 	
 	public static Map<String, List<String>> executeSQLStatement(String sql, DbProcessor processor) {
@@ -22,7 +24,7 @@ public class FUOconnection {
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("-- Database connection FUO established");
+			Logger.info("Database connection FUO established");
 			Statement statement = conn.createStatement();
 			rs = statement.executeQuery(sql);
 		} catch (Exception e) {
@@ -33,7 +35,7 @@ public class FUOconnection {
 				try {
 					Map<String, List<String>> result = processor.process(rs);
 					conn.close();
-					System.out.println("-- Database connection FUO terminated");
+					Logger.info("Database connection FUO terminated");
 
 					return result;
 				} catch (Exception e) { /* ignore close errors */

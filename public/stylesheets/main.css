@@ -18,13 +18,13 @@ dd {
 /* END standard */
 #pagina {
 	border: 1px solid black;
-	padding: 5px 15px 15px 15px;
+	padding: 15px 15px 5px 15px;
 }
 
 .fullFrame {
 	border: 1px solid black;
 	padding: 10px;
-	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 /* Settings pagina */
@@ -41,4 +41,32 @@ dd {
 #projectCheckboxes dl {
 	margin-top: 0;	
 	margin-bottom: 0;
+}
+
+#widgetSettings {
+	clear: both;
+}
+
+.projectTab {
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	padding: 5px;
+	min-width: 1px;
+	margin-right: -1px;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+
+.widgetSettingFrame {
+	border: 1px solid black;
+	padding: 10px;
+	width: 220px;
+	margin-right: 20px;
+	float: left;
+}
+
+.active {
+	background-color: #CCDDDD;
 }

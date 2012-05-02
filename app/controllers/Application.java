@@ -1,10 +1,8 @@
 package controllers;
 
-import play.*;
 import play.data.Form;
 import play.mvc.*;
 
-import views.html.*;
 import models.*;
 
 public class Application extends Controller {
