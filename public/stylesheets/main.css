@@ -1,4 +1,10 @@
-/* Standard */ 
+/* Standard */
+body {
+	background-color: #E2E2E2;
+	font-size: 13px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
 h1, h2, h3 {
 	margin: 0;
 }
@@ -16,15 +22,40 @@ dd {
 	display: none;
 }
 /* END standard */
-#pagina {
-	border: 1px solid black;
+#header {
+	background-color: white;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
 	padding: 15px 15px 5px 15px;
+}
+
+#pagina {
+	background-color: white;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 5px 15px 5px 15px;
 }
 
 .fullFrame {
 	border: 1px solid black;
 	padding: 10px;
 	margin-bottom: 10px;
+}
+
+.halfFrame:nth-child(odd) {
+	border: 1px solid black;
+	margin-bottom: 10px;
+	width: 49.5%;
+	float: left;
+}
+
+.halfFrame:nth-child(even) {
+	border: 1px solid black;
+	margin-bottom: 10px;
+	width: 49.5%;
+	float: right;
 }
 
 /* Settings pagina */
@@ -62,11 +93,90 @@ dd {
 .widgetSettingFrame {
 	border: 1px solid black;
 	padding: 10px;
-	width: 220px;
+	width: 226px;
 	margin-right: 20px;
 	float: left;
 }
 
 .active {
 	background-color: #CCDDDD;
+}
+
+/* Table layout */
+/*
+--------------------------------------------------------------------------------
+What:	"Oranges in the sky" Styles(Table data design)
+Who:	Krasimir Makaveev(krasi [at] makaveev [dot] com)
+When:	15.09.2005(created)
+--------------------------------------------------------------------------------
+*/
+
+table {
+	border-collapse: collapse;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	width: 100%;
+	color: #333;
+}
+
+table caption {
+	font-size: 1.1em;
+	font-weight: bold;
+	letter-spacing: -1px;
+	margin-bottom: 10px;
+	padding: 5px;
+	background: #efefef;
+	border: 1px solid #ccc;
+	color: #666;
+}
+
+table a {
+	text-decoration: none;
+	border-bottom: 1px dotted #f60;
+	color: #f60;
+}
+
+table a:hover {
+	text-decoration: none;
+}
+
+table tr th a {
+	color: #369;
+	border-bottom: 1px dotted #369;
+}
+
+table tr th a:hover {
+	color: #fff;
+	background: #369;
+}
+
+table thead tr th {
+	text-transform: uppercase;
+	background: #e2e2e2;
+}
+
+table tfoot tr th, table tfoot tr td {
+	text-transform: uppercase;
+	color: #000;
+	font-weight: bold;
+}
+
+table tfoot tr th {
+	width: 20%;
+}
+
+table tfoot tr td {
+	width: 80%;
+}
+
+table td, table th {
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 3px;
+	line-height: 1.5em;
+	vertical-align: top;
+}
+
+table tr.odd th, table tr.odd td {
+	background: #efefef;
 }

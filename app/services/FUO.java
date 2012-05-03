@@ -51,7 +51,7 @@ public class FUO {
 	}
 	
 	public static List<DashboardProject> getProjectsProjectManagers() throws SQLException {
-		String sql = "SELECT DISTINCT id, name, owner_id FROM view_voortgangsdashboard_project WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL";
+		String sql = "SELECT DISTINCT view_voortgangsdashboard_project.id, view_voortgangsdashboard_client.name AS client_name, view_voortgangsdashboard_project.name, owner_id FROM view_voortgangsdashboard_project, view_voortgangsdashboard_client WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL AND view_voortgangsdashboard_project.client_id = view_voortgangsdashboard_client.id";
 		Map<String, List<String>> result = FUOconnection.executeSQLStatement(
 				sql, new DbProcessor() {
 
@@ -59,12 +59,14 @@ public class FUO {
 					public Map<String, List<String>> process(ResultSet rs) {
 						Map<String, List<String>> result = new HashMap<String, List<String>>();
 						List<String> ids = new ArrayList<String>();
+						List<String> client_name = new ArrayList<String>();
 						List<String> name = new ArrayList<String>();
 						List<String> owner_id = new ArrayList<String>();
 
 						try {
 							while (rs.next()) {
 								ids.add(rs.getString("id"));
+								client_name.add(rs.getString("client_name"));
 								name.add(rs.getString("name"));
 								owner_id.add(rs.getString("owner_id"));
 							}
@@ -74,6 +76,7 @@ public class FUO {
 						}
 						
 						result.put("id", ids);
+						result.put("client_name", client_name);
 						result.put("name", name);
 						result.put("owner_id", owner_id);
 
@@ -84,7 +87,7 @@ public class FUO {
 		
 		List<DashboardProject> projects = new ArrayList<DashboardProject>();
 		for (int i = 0; i < result.get("id").size(); i++) {
-			projects.add( new DashboardProject( Integer.parseInt(result.get("id").get(i)), Integer.parseInt(result.get("owner_id").get(i)), result.get("name").get(i)) );
+			projects.add( new DashboardProject( Integer.parseInt(result.get("id").get(i)), result.get("client_name").get(i), Integer.parseInt(result.get("owner_id").get(i)), result.get("name").get(i)) );
 		}	
 		
 		return projects;

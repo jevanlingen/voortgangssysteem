@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, backToDashboard: Boolean)(content: Html)
 
 <!DOCTYPE html>
 
@@ -12,6 +12,16 @@
         <!--  <script src="@routes.Assets.at("javascripts/main_widget.js")" type="text/javascript"></script>  -->
     </head>
     <body>
-        @content
+    	 <div id="header">
+	    	<h1>@title</h1>
+	    	@if(backToDashboard) {
+	    		<a href="/">Terug naar dashboardoverzicht</a>
+	    	}
+	    	<hr />	    	
+	    </div>
+    
+   		 <div id="pagina">
+        	@content
+         </div>
     </body>
 </html>

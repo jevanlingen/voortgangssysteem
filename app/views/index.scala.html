@@ -2,42 +2,52 @@
 
 @import helper._
 
-@main("Dashboardsoverzicht") {
-    
-    <h1>@dashboards.size() dashboards(s)</h1>
-    <hr />
-    
-    <div id="pagina">
-    	<div class="fullFrame">
-    		<h3>Overzicht</h3>
-    		<hr />
-    
-			    <ul>
+@main("Dashboardsoverzicht", false) {
+	<div class="fullFrame">
+   		<h3>Overzicht</h3>
+   		<hr />
+   
+		    <table>
+		    	<thead>
+		    		<tr>
+			    		<th>Nummer</th>
+			    		<th>Naam</th>
+			    		<th>Instellingen</th>
+			    		<th>Verwijderen</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
 			        @for(dashboard <- dashboards) {
-			            <li>
-			                @dashboard.getLabel
-			                
-			                @form(routes.DashboardSettings.index(dashboard.getId)) {
-			                    <input type="submit" value="settings">
-			                }
-			                @form(routes.Application.deleteDashboard(dashboard.getId)) {
-			                    <input type="submit" value="Delete">
-			                }
-			            </li>
+				        <tr>
+				            <td style="width: 10%">@dashboard.getId</td>
+				            <td style="width: 66%">
+				            	<a href="@routes.Dashboard.index(dashboard.getId)">@dashboard.getLabel</a>
+				            </td>
+				            <td style="width: 12%">	                
+				                @form(routes.DashboardSettings.index(dashboard.getId)) {
+				                    <input type="submit" value="settings">
+				                }
+				            </td>
+				            <td style="width: 12%">
+				                @form(routes.Application.deleteDashboard(dashboard.getId)) {
+				                    <input type="submit" value="Delete">
+				                }
+				            </td>
+				        <tr>
 			        }
-			    </ul>
-		</div>
-		
-		<div class="fullFrame">	    
-		    <h3>Voeg een nieuw dashboard toe</h3>
-		    <hr />
-		    @form(routes.Application.createDashboard()) {
-		        
-		        @inputText(dashboardForm("label"), '_label -> "Naam dashboard") 
-		        
-		        <input type="submit" value="Create">
-		        
-		    }
-		</div>
-	</div>    
+		        </tbody>
+		    </table>
+	</div>
+	
+	<div class="fullFrame">	    
+	    <h3>Voeg een nieuw dashboard toe</h3>
+	    <hr />
+	    @form(routes.Application.createDashboard()) {
+	        
+	        @inputText(dashboardForm("label"), '_label -> "Naam dashboard", '_showConstraints -> false )
+	        
+	        <input type="submit" value="Create">
+	        
+	    }
+	</div>
 }

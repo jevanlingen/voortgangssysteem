@@ -1,0 +1,16 @@
+@(dashboard: models.persistence.Dashboard, dashboardProjects: List[models.persistence.DashboardProject])
+
+@import helper._
+
+@main("Dashboard - "+ dashboard.getLabel, true) {
+	@for(dashboardProject <- dashboardProjects) {
+		<div class="halfFrame">
+			<div>
+				<span>@dashboardProject.getFuo_id</span> |
+				<span>@dashboardProject.getClient_name</span> |
+				<span>@dashboardProject.getName</span>
+			</div>
+		</div>
+	}
+	<div style="clear: both;"></div>
+}

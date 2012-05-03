@@ -18,6 +18,8 @@ public class DashboardProject extends Model {
 	
 	private int fuo_id;
 	
+	private String client_name;
+	
 	@Required
 	private String name;
 
@@ -29,6 +31,13 @@ public class DashboardProject extends Model {
 
 	public DashboardProject(int fuo_id, int owner_id, String name) {
 		this.fuo_id = fuo_id;
+		this.owner_id = owner_id;
+		this.name = name;
+	}
+	
+	public DashboardProject(int fuo_id, String client_name, int owner_id, String name) {
+		this.fuo_id = fuo_id;
+		this.client_name = client_name;
 		this.owner_id = owner_id;
 		this.name = name;
 	}
@@ -131,5 +140,13 @@ public class DashboardProject extends Model {
 
 	public void setDashboard_id(Long dashboard_id) {
 		this.dashboard_id = dashboard_id;
+	}
+
+	public String getClient_name() {
+		return client_name;
+	}
+
+	public void setClient_name(String client_name) {
+		this.client_name = client_name;
 	}
 }
