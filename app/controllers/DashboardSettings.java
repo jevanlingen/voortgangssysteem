@@ -41,15 +41,28 @@ public class DashboardSettings extends Controller {
 					widgetHashMapById,
 					FUO.getAllProjectManagers(),
 					FUO.getProjectsProjectManagers()));
-		} else {
-		    DashboardProject.deleteProjectsByDashboard_id(dashboard_id); //Delete projects including widgets. Next step: delete only those project that are not in current request
+		} else {			
 			Dashboard dashboard = Dashboard.getDashboard(dashboard_id);
-			
 			dashboard.setProjectManager(filledForm.get().getProjectManager());
+			
+			List<Long> projectIdsOfPreviousRequest = DashboardProject.getProjectIdsByDashboardId(dashboard_id);
 			List<DashboardProject> dashboardProjects = filledForm.get().getProjects();
+			
+			//Add or Update projects; chosen by user
 			for (DashboardProject dashboardProject : dashboardProjects) {
-				DashboardProject.create(dashboardProject);
-				createAndSaveWidgets(dashboardProject.getId());
+				if(DashboardProject.projectExist(dashboardProject)) {
+					dashboardProject.update();
+				}
+				else {
+					DashboardProject.create(dashboardProject);
+					createAndSaveWidgets(dashboardProject.getId());
+				}
+				projectIdsOfPreviousRequest.remove(dashboardProject.getId());
+			}
+			
+			//Delete projects no longer chosen
+			for(Long id : projectIdsOfPreviousRequest) {
+				DashboardProject.delete(id);
 			}
 			
 			dashboard.update();
@@ -94,6 +107,25 @@ public class DashboardSettings extends Controller {
 			projectmanagersMap.put(projectmanager.getId()+"", projectmanager.getName());
 		}		
 		return projectmanagersMap;
+	}
+	
+	public static boolean projectExistInDB(DashboardProject dashboardProject, List<DashboardProject> dashboardProjectsInDB) {
+		for (int i = 0; i < dashboardProjectsInDB.size(); i++) {
+   			if ((dashboardProject.getName()).equals(dashboardProjectsInDB.get(i).getName())) {
+   				return true;
+   			}
+   		}
+		return false;
+	}
+	
+	public static Long getProjectIdForExistedProject(DashboardProject dashboardProject, List<DashboardProject> dashboardProjectsInDB) {
+		for (int i = 0; i < dashboardProjectsInDB.size(); i++) {
+   			if ((dashboardProject.getName()).equals(dashboardProjectsInDB.get(i).getName())) {
+   				return dashboardProjectsInDB.get(i).getId();
+   			}
+   		}
+		
+		return null;
 	}
 
 }

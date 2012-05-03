@@ -1,5 +1,6 @@
 package models.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -38,8 +39,31 @@ public class DashboardProject extends Model {
 	            .findList();
 	}
 	
+	public static List<Long> getProjectIdsByDashboardId(Long id) {
+		List<Long> ids = new ArrayList<Long>();
+		List<Object> listObjectIds = find.where()
+				.eq("dashboard_id", id)
+				.findIds();
+		
+		for (Object listObjectId : listObjectIds) {
+			ids.add((Long) listObjectId);
+		}
+		
+		return ids;		
+	}
+	
 	public static DashboardProject getProject(Long id) {
 		return find.byId(id);
+	}
+	
+	public static boolean projectExist(DashboardProject dashboardProject) {
+		int rowCount = find.where()
+		 .eq("fuo_id", dashboardProject.getFuo_id())
+         .eq("owner_id", dashboardProject.getOwner_id())
+         .eq("dashboard_id", dashboardProject.getDashboard_id())
+         .findRowCount();
+		
+		return (rowCount > 0) ? true : false;
 	}
 	
 	public static boolean projectExist(int fuo_id, int owner_id, Long dashboard_id) {
@@ -57,6 +81,7 @@ public class DashboardProject extends Model {
 	}
 	
 	public static void delete(Long id) {
+		Widget.deleteWidgetsByProject_id(id);
 		find.byId(id).delete();
 	}
 	

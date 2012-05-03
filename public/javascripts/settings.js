@@ -4,6 +4,7 @@ $(document).ready(function() {
 	$('#projectManager').change(function() {	
 		$('.hide').hide();
 		$('.'+$('#projectManager option:selected').val()).show();
+		$('.project input[type=checkbox]').prop("checked", false);
 	});
 	
 	///---- WIDGET TABS ----///
