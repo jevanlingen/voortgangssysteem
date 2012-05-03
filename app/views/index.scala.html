@@ -1,4 +1,4 @@
-@(dashboards: List[Dashboard], dashboardForm: Form[Dashboard])
+@(dashboards: List[models.persistence.Dashboard], dashboardForm: Form[models.persistence.Dashboard])
 
 @import helper._
 
@@ -15,12 +15,12 @@
 			    <ul>
 			        @for(dashboard <- dashboards) {
 			            <li>
-			                @dashboard.label
+			                @dashboard.getLabel
 			                
-			                @form(routes.DashboardSettings.index(dashboard.id)) {
+			                @form(routes.DashboardSettings.index(dashboard.getId)) {
 			                    <input type="submit" value="settings">
 			                }
-			                @form(routes.Application.deleteDashboard(dashboard.id)) {
+			                @form(routes.Application.deleteDashboard(dashboard.getId)) {
 			                    <input type="submit" value="Delete">
 			                }
 			            </li>

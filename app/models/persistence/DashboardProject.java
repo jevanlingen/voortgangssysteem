@@ -1,4 +1,4 @@
-package models;
+package models.persistence;
 
 import java.util.List;
 

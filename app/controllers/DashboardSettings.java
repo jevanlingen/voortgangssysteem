@@ -1,60 +1,55 @@
 package controllers;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.avaje.ebeaninternal.server.persist.BindValues.Value;
-
-import models.Dashboard;
-import models.DashboardProject;
-import models.Widget;
+import models.api.Projectmanager;
+import models.persistence.Dashboard;
+import models.persistence.DashboardProject;
+import models.persistence.Widget;
+import models.view.ViewModelDashboard;
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import API.FUO;
-import API_models.Projectmanager;
+import services.FUO;
 
 public class DashboardSettings extends Controller {
 	
-	static Form<Dashboard> dashboardForm = form(Dashboard.class);
-	static Form<Widget> widgetForm = form(Widget.class);
-	
 	public static Result index(Long id) throws SQLException {
-		Dashboard dashboard = Dashboard.getDashboard(id);		
-		Form<Dashboard> dashboardForm = form(Dashboard.class).fill(dashboard);
-		HashMap<Long, Form<Widget>> widgetHashMapById = getFormWidgetsOfDashboard(dashboard.id);
+		Dashboard dashboard = Dashboard.getDashboard(id);
+		ViewModelDashboard viewModelDashboard = ViewModelDashboard.getViewModelDashboard(id);
+				
+		Form<ViewModelDashboard> dashboardForm = form(ViewModelDashboard.class).fill(viewModelDashboard);
+		HashMap<Long, Form<Widget>> widgetHashMapById = getFormWidgetsOfDashboard(dashboard.getId());
 		
-		return ok(views.html.dashboardsettings.render( dashboard, dashboardForm, widgetHashMapById, FUO.getAllProjectManagers(), FUO.getProjectsProjectManagers()));
+		return ok(views.html.dashboardsettings.render( 
+				dashboard, dashboardForm, widgetHashMapById, FUO.getAllProjectManagers(), FUO.getProjectsProjectManagers()));
 	}
 	
 	public static Result saveSetting(Long dashboard_id) throws SQLException {
-		Form<Dashboard> filledForm = form(models.Dashboard.class).bindFromRequest();
-			System.out.println(filledForm.data());
-		if (filledForm.hasGlobalErrors()) {			
+		Form<ViewModelDashboard> filledForm = form(ViewModelDashboard.class).bindFromRequest();
+					
+		if (filledForm.hasErrors()) {			
 			Logger.error("DashboardSettings - SaveSettings form contains errors");
 			HashMap<Long, Form<Widget>> widgetHashMapById = getFormWidgetsOfDashboard(dashboard_id);			
-			return badRequest(views.html.dashboardsettings.render(Dashboard.getDashboard(dashboard_id), filledForm, widgetHashMapById, FUO.getAllProjectManagers(), FUO.getProjectsProjectManagers()));
+			return badRequest(views.html.dashboardsettings.render(
+					Dashboard.getDashboard(dashboard_id),
+					filledForm,
+					widgetHashMapById,
+					FUO.getAllProjectManagers(),
+					FUO.getProjectsProjectManagers()));
 		} else {
 		    DashboardProject.deleteProjectsByDashboard_id(dashboard_id); //Delete projects including widgets. Next step: delete only those project that are not in current request
 			Dashboard dashboard = Dashboard.getDashboard(dashboard_id);
 			
-			//Use the filledForm.data() instead of the filleForm.get(), because the Dashboard object does not have a list of projects
-			for (Map.Entry<String, String> entry: filledForm.data().entrySet()) {
-				if (entry.getKey().startsWith("projectContainer")) {
-					String[] values = entry.getValue().split(","); //[0] fuo_id, [1] owner_id, [2] name
-					DashboardProject project = new DashboardProject(Integer.parseInt(values[0]), Integer.parseInt(values[1]), values[2]);
-					project.setDashboard_id(dashboard_id);
-					DashboardProject.create(project);
-					
-					createAndSaveWidgets(project.getId());
-				}
-				if (entry.getKey().startsWith("projectManager")) {
-					dashboard.setProjectManager(entry.getValue());
-				}
+			dashboard.setProjectManager(filledForm.get().getProjectManager());
+			List<DashboardProject> dashboardProjects = filledForm.get().getProjects();
+			for (DashboardProject dashboardProject : dashboardProjects) {
+				DashboardProject.create(dashboardProject);
+				createAndSaveWidgets(dashboardProject.getId());
 			}
 			
 			dashboard.update();

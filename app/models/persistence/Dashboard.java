@@ -1,4 +1,4 @@
-package models;
+package models.persistence;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ public class Dashboard extends Model {
 
 	@Id
 	@GeneratedValue
-	public Long id;
+	private Long id;
 
 	@Required
-	public String label;
+	private String label;
 	
 	@Column(name = "project_manager")
 	private String projectManager;
@@ -39,6 +39,22 @@ public class Dashboard extends Model {
 		getDashboard(id).delete();
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	public String getProjectManager() {
 		return projectManager;
 	}

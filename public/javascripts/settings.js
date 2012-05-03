@@ -19,6 +19,20 @@ $(document).ready(function() {
 	});
 	///---- END WIDGET TABS ----///
 	
+	//Submit #settingsDashbaordForm
+	$('#settingsDashbaordForm').submit(function() {
+		$(".project:has(input[type=checkbox]:not(:checked))").each(function() {
+			$(this).find('input[type=hidden]').remove();
+		});
+		$(".project:has(input[type=checkbox]:checked)").each(function(i) {
+			$(this).find('input').each(function() {
+				$(this).attr('name', $(this).attr('name').replace($(this).attr('name'), 'projects[' + i + '].'+$(this).attr('name')));
+			});
+		});
+	});
+	
+	
+	//Submit #SettingsWidgetForm
 	$('#settingsWidgetForm').submit(function() {
 		$(".widgetSettingFrame").each(function(i) {
 			$(this).find('input').each(function() {
@@ -28,3 +42,5 @@ $(document).ready(function() {
 	});
 	
 });
+
+//projects

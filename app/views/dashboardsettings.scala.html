@@ -1,4 +1,4 @@
-@(dashboard: Dashboard, settingsForm: Form[models.Dashboard], mapOfFormWidgets : Map[Long, Form[models.Widget]], projectManagers: List[API_models.Projectmanager], projects: List[DashboardProject])
+@(dashboard: models.persistence.Dashboard, settingsForm: Form[models.view.ViewModelDashboard], mapOfFormWidgets : Map[Long, Form[models.persistence.Widget]], projectManagers: List[models.api.Projectmanager], projects: List[models.persistence.DashboardProject])
 
 @* @import helper.bootstrap._ *@
 @import helper._
@@ -7,7 +7,7 @@
         
 	<script src="@routes.Assets.at("javascripts/settings.js")" type="text/javascript"></script>
     
-    <h1>Instellingen - @dashboard.label</h1>
+    <h1>Instellingen - @dashboard.getLabel</h1>
     <a href="/">Terug naar dashboardoverzicht</a>
     <hr />
     
@@ -15,7 +15,7 @@
     	<div class="fullFrame">
     		<h3>Keuze projecten</h3>
     		<hr /> 
-    		@form(routes.DashboardSettings.saveSetting(dashboard.id)) {
+    		@form(routes.DashboardSettings.saveSetting(dashboard.getId), 'id -> "settingsDashbaordForm") {
     			@*********************
 				 * ALLE GEKOZEN PROJECTEN IN DB, niet de NIET gekozen ids; Kan later problemen opleveren bij het automatisch aanvullen van nieuwe projecten!!! *
 				 *********************@
@@ -23,7 +23,13 @@
 			    	
 			   <div id="projectCheckboxes">
 			   		@for(i <- 0 until projects.size) {
-				   		@checkbox(settingsForm("projectContainer["+i+"]"), 'value -> (projects.get(i).getFuo_id+","+projects.get(i).getOwner_id+","+projects.get(i).getName), 'id -> projects.get(i).getFuo_id, '_class ->  (projects.get(i).getOwner_id +" hide"), '_label -> projects.get(i).getName)
+			   			<span class="project">
+				   			<input type="hidden" name="fuo_id" value="@projects.get(i).getFuo_id" />
+				   			<input type="hidden" name="owner_id" value="@projects.get(i).getOwner_id" />
+				   			<input type="hidden" name="name" value="@projects.get(i).getName" />
+				   			<input type="hidden" name="dashboard_id" value="@dashboard.getId" />
+					   		@checkbox(settingsForm("projects"), 'id -> projects.get(i).getFuo_id, '_class ->  (projects.get(i).getOwner_id +" hide"), '_label -> projects.get(i).getName)
+				   		</span>
 				   	}
 				</div>
 		        
@@ -31,17 +37,17 @@
 	    	}
 	    </div>
 	    
-	    @for(dashboardProject <- DashboardProject.getProjectsByDashboardId(dashboard.id)) {
+	    @for(dashboardProject <- models.persistence.DashboardProject.getProjectsByDashboardId(dashboard.getId)) {
 	    	<div id="projectTab_@dashboardProject.getId" class="projectTab">@dashboardProject.getName</div>
 		}			    
 	    
-	    @form(routes.Widget.saveWidgets(dashboard.id), 'id -> "settingsWidgetForm") {
+	    @form(routes.Widget.saveWidgets(dashboard.getId), 'id -> "settingsWidgetForm") {
 	    	<div id="widgetSettings" class="fullFrame">
-			    @for(dashboardProject <- DashboardProject.getProjectsByDashboardId(dashboard.id)) {				    
+			    @for(dashboardProject <- models.persistence.DashboardProject.getProjectsByDashboardId(dashboard.getId)) {				    
 			   		<div id="widgetSetting_@dashboardProject.getId" class="fullFrame">
 			   			<h3>Widgets</h3>
 		    			<hr />
-		    			@for(widget <- models.Widget.getWidgetsByProjectId(dashboardProject.getId)) {
+		    			@for(widget <- models.persistence.Widget.getWidgetsByProjectId(dashboardProject.getId)) {
 		    				<div class="widgetSettingFrame">
 		    					<h3>@widget.getName</h3>
 		    					<hr />

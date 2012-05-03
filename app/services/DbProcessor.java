@@ -1,4 +1,4 @@
-package API;
+package services;
 
 import java.sql.ResultSet;
 import java.util.List;

@@ -1,7 +1,9 @@
-package models;
+package models.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import models.persistence.Widget;
 
 
 public class ViewModelWidget {

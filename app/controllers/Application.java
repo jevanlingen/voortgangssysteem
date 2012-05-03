@@ -4,6 +4,7 @@ import play.data.Form;
 import play.mvc.*;
 
 import models.*;
+import models.persistence.Dashboard;
 
 public class Application extends Controller {
 
@@ -14,7 +15,7 @@ public class Application extends Controller {
 	}
 
 	public static Result getDashboards() {
-		return ok(views.html.index.render(models.Dashboard.all(), dashboardForm));
+		return ok(views.html.index.render(models.persistence.Dashboard.all(), dashboardForm));
 	}
 	
 	public static Result createDashboard() {

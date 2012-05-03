@@ -1,4 +1,4 @@
-package API_models;
+package models.api;
 
 public class Projectmanager {
 	

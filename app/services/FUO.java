@@ -1,4 +1,4 @@
-package API;
+package services;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.DashboardProject;
+import models.api.Projectmanager;
+import models.persistence.DashboardProject;
 
-import API_models.Projectmanager;
 
 public class FUO {
 
