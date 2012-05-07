@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import play.Logger;
+
 import models.api.Projectmanager;
+import models.api.ProgressReport;
 import models.persistence.DashboardProject;
 
 
@@ -15,82 +18,90 @@ public class FUO {
 
 	public static List<Projectmanager> getAllProjectManagers() throws SQLException {
 		String sql = "SELECT id, CASE WHEN (infix IS NULL) OR (infix = ' ') THEN concat(firstname, ' ', lastname) ELSE concat(firstname, ' ', infix, ' ', lastname) END AS name FROM view_voortgangsdashboard_employee WHERE id IN (SELECT DISTINCT owner_id FROM view_voortgangsdashboard_project WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL)";
-		Map<String, List<String>> result = FUOconnection.executeSQLStatement(
-				sql, new DbProcessor() {
+		List<Projectmanager> projectManagers = FUOconnection.executeSQLStatement(
+				sql, new DbProcessor<Projectmanager>() {
 
 					@Override
-					public Map<String, List<String>> process(ResultSet rs) {
-						final Map<String, List<String>> result = new HashMap<String, List<String>>();
-						final List<String> ids = new ArrayList<String>();
-						final List<String> members = new ArrayList<String>();
-
+					public List<Projectmanager> process(ResultSet rs) {
+						List<Projectmanager> projectManagers = new ArrayList<Projectmanager>();
+						
 						try {
 							while (rs.next()) {
-								ids.add(rs.getString("id"));
-								members.add(rs.getString("name"));
+								projectManagers.add( new Projectmanager(rs.getInt("id"), rs.getString("name")) );
 							}
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
+						}									
 						
-						result.put("id", ids);
-						result.put("name", members);
-
-						return result;
-
+						return projectManagers;
 					}
-				});
-		
-		List<Projectmanager> projectManagers = new ArrayList<Projectmanager>();
-		for (int i = 0; i < result.get("id").size(); i++) {
-			projectManagers.add(new Projectmanager( Integer.parseInt(result.get("id").get(i)), result.get("name").get(i)) );
-		}		
+		});	
 		
 		return projectManagers;
 	}
 	
 	public static List<DashboardProject> getProjectsProjectManagers() throws SQLException {
-		String sql = "SELECT DISTINCT view_voortgangsdashboard_project.id, view_voortgangsdashboard_client.name AS client_name, view_voortgangsdashboard_project.name, owner_id FROM view_voortgangsdashboard_project, view_voortgangsdashboard_client WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL AND view_voortgangsdashboard_project.client_id = view_voortgangsdashboard_client.id";
-		Map<String, List<String>> result = FUOconnection.executeSQLStatement(
-				sql, new DbProcessor() {
+		String sql = "SELECT DISTINCT view_voortgangsdashboard_project.id, view_voortgangsdashboard_client.name AS client_name, view_voortgangsdashboard_project.name, owner_id, projecttype_description FROM view_voortgangsdashboard_project, view_voortgangsdashboard_client WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL AND view_voortgangsdashboard_project.client_id = view_voortgangsdashboard_client.id";
 
-					@Override
-					public Map<String, List<String>> process(ResultSet rs) {
-						Map<String, List<String>> result = new HashMap<String, List<String>>();
-						List<String> ids = new ArrayList<String>();
-						List<String> client_name = new ArrayList<String>();
-						List<String> name = new ArrayList<String>();
-						List<String> owner_id = new ArrayList<String>();
+		List<DashboardProject> projects = FUOconnection.executeSQLStatement(sql, new DbProcessor<DashboardProject>() {
 
-						try {
-							while (rs.next()) {
-								ids.add(rs.getString("id"));
-								client_name.add(rs.getString("client_name"));
-								name.add(rs.getString("name"));
-								owner_id.add(rs.getString("owner_id"));
-							}
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-						result.put("id", ids);
-						result.put("client_name", client_name);
-						result.put("name", name);
-						result.put("owner_id", owner_id);
-
-						return result;
-
+			@Override
+			public List<DashboardProject> process(ResultSet rs) {
+				List<DashboardProject> projects = new ArrayList<DashboardProject>();
+								
+				try {
+					while (rs.next()) {
+						projects.add( new DashboardProject(rs.getInt("id"), rs.getString("client_name"), rs.getInt("owner_id"), rs.getString("name"), rs.getString("projecttype_description")) );
 					}
-				});
-		
-		List<DashboardProject> projects = new ArrayList<DashboardProject>();
-		for (int i = 0; i < result.get("id").size(); i++) {
-			projects.add( new DashboardProject( Integer.parseInt(result.get("id").get(i)), result.get("client_name").get(i), Integer.parseInt(result.get("owner_id").get(i)), result.get("name").get(i)) );
-		}	
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+				
+				return projects;
+			}
+		});
 		
 		return projects;
+	}
+	
+	public static ProgressReport getLastProgressReportById(Long id) {
+		String sql = 
+				"SELECT"
+				  +"(SELECT SUM(hours) FROM view_voortgangsdashboard_registeredhours WHERE project_id = "+id+") AS hours_worked,"
+				  +"SUM(hours_realised) AS hours_realised, SUM(hours_planned) AS hours_planned,"
+				  +"SUM(hours_todo) AS hours_todo"
+				+"FROM view_voortgangsdashboard_progressline"
+				+"WHERE progressreport_id ="
+				+"("
+					+"SELECT id FROM view_voortgangsdashboard_progressreport WHERE project_id = "+id
+						+"AND"
+					+"sequence = (SELECT MAX(sequence) FROM view_voortgangsdashboard_progressreport WHERE project_id = "+id+")"
+				+");";
+		
+		Logger.info(sql);
+
+		List<ProgressReport> projects = FUOconnection.executeSQLStatement(sql, new DbProcessor<ProgressReport>() {
+
+			@Override
+			public List<ProgressReport> process(ResultSet rs) {
+				List<ProgressReport> progressReportList = new ArrayList<ProgressReport>();
+								
+				try {
+					while (rs.next()) {
+						progressReportList.add( new ProgressReport(rs.getDouble("hours_worked"), rs.getDouble("hours_realised"), rs.getDouble("hours_planned"), rs.getDouble("hours_todo")) );
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+				
+				return progressReportList;
+			}
+		});
+		
+		return projects.get(0);
 	}
 }
 

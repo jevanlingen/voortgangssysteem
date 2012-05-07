@@ -27,6 +27,8 @@ public class DashboardProject extends Model {
 	
 	private Long dashboard_id;
 	
+	private String projecttype_description;
+	
 	public static Finder<Long, DashboardProject> find = new Finder<Long, DashboardProject>(Long.class, DashboardProject.class);
 
 	public DashboardProject(int fuo_id, int owner_id, String name) {
@@ -35,11 +37,12 @@ public class DashboardProject extends Model {
 		this.name = name;
 	}
 	
-	public DashboardProject(int fuo_id, String client_name, int owner_id, String name) {
+	public DashboardProject(int fuo_id, String client_name, int owner_id, String name, String projecttype_description) {
 		this.fuo_id = fuo_id;
 		this.client_name = client_name;
 		this.owner_id = owner_id;
 		this.name = name;
+		this.projecttype_description = projecttype_description;
 	}
 	
 	public static List<DashboardProject> getProjectsByDashboardId(Long id) {
@@ -148,5 +151,13 @@ public class DashboardProject extends Model {
 
 	public void setClient_name(String client_name) {
 		this.client_name = client_name;
+	}
+
+	public String getProjecttype_description() {
+		return projecttype_description;
+	}
+
+	public void setProjecttype_description(String projecttype_description) {
+		this.projecttype_description = projecttype_description;
 	}
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import play.data.Form;
 import play.mvc.*;
+import play.Routes;
 
 import models.*;
 import models.persistence.Dashboard;
@@ -33,14 +34,17 @@ public class Application extends Controller {
 		return redirect(routes.Application.getDashboards());
 	}
 
-//	public static Result javascriptRoutes() {
-////		response().setContentType("text/javascript");
-////		return ok(Routes.javascriptRouter("jsRoutes",
-////				controllers.routes.javascript.Project.getWidgetInformation()
-////		));
-//		
-//		// TODO
-//		return null;
-//	}
+	// -- Javascript routing
+    public static Result javascriptRoutes() {
+        response().setContentType("text/javascript");
+        return ok(
+            Routes.javascriptRouter("jsRoutes",
+            
+                // Routes for Projects
+                controllers.routes.javascript.Dashboard.getProgressReport()
+                
+            )
+        );
+    }
 
 }

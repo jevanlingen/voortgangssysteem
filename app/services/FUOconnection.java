@@ -12,7 +12,7 @@ import play.Logger;
 
 public class FUOconnection {
 	
-	public static Map<String, List<String>> executeSQLStatement(String sql, DbProcessor processor) {
+	public static <T> List<T> executeSQLStatement(String sql, DbProcessor<T> processor) {
 		Connection conn = null;
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://acorn-mysql-5.finalist.nl/facturenonline";
@@ -33,7 +33,7 @@ public class FUOconnection {
 		} finally {
 			if (conn != null) {
 				try {
-					Map<String, List<String>> result = processor.process(rs);
+					List<T> result = processor.process(rs);
 					conn.close();
 					Logger.info("Database connection FUO terminated");
 
