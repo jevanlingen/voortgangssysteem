@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import play.data.Form;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -15,17 +16,19 @@ public class Dashboard extends Model {
 	private Long id;
 
 	@Required
+	@Column(unique = true)
 	private String label;
-	
+
 	@Column(name = "project_manager")
 	private String projectManager;
-		
-	public static Finder<Long, Dashboard> find = new Finder<Long, Dashboard>(Long.class, Dashboard.class);
+
+	public static Finder<Long, Dashboard> find = new Finder<Long, Dashboard>(
+			Long.class, Dashboard.class);
 
 	public static List<Dashboard> all() {
 		return find.all();
 	}
-	
+
 	public static Dashboard getDashboard(Long id) {
 		return find.byId(id);
 	}
@@ -38,7 +41,7 @@ public class Dashboard extends Model {
 		DashboardProject.deleteProjectsByDashboard_id(id);
 		getDashboard(id).delete();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -61,5 +64,11 @@ public class Dashboard extends Model {
 
 	public void setProjectManager(String projectManager) {
 		this.projectManager = projectManager;
+	}
+
+	public static void validate(Form<Dashboard> form) {
+		if (find.where().eq("label", form.data().get("label")).findList().size() > 0) {
+			form.reject("label", "Naam bestaat al");
+		}
 	}
 }

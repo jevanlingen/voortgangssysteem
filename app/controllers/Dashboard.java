@@ -12,10 +12,6 @@ import static play.libs.Json.toJson;
 
 public class Dashboard  extends Controller {
 	
-	public static Result index(Long dashboard_id) {
-		return redirect(routes.Dashboard.getProjects(dashboard_id));
-	}
-
 	public static Result getProjects(Long dashboard_id) {
 		models.persistence.Dashboard dashboard = models.persistence.Dashboard.getDashboard(dashboard_id);
 		List<DashboardProject> listDashboardProjects = DashboardProject.getProjectsByDashboardId(dashboard_id);

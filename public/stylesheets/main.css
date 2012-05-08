@@ -31,6 +31,15 @@ a:hover {
 .hide {
 	display: none;
 }
+
+.clearBoth {
+	clear: both;
+}
+
+.error dd {
+	color: red;
+}
+
 /* END standard */
 #header {
 	background-color: white;

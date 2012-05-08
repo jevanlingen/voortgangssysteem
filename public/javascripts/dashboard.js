@@ -6,7 +6,7 @@
       Classes
     */
 
-    var Widget;
+    var Helper, Widget, helper;
     Widget = (function() {
 
       Widget.name = 'Widget';
@@ -32,17 +32,36 @@
       return Widget;
 
     })();
+    Helper = (function() {
+
+      Helper.name = 'Helper';
+
+      function Helper() {}
+
+      Helper.prototype.construtor = function(name) {
+        this.name = name;
+      };
+
+      Helper.prototype.doOneCarousel = function() {
+        return $('#projects .clearBoth').before($('.project::eq(0), .project::eq(1)'));
+      };
+
+      return Helper;
+
+    })();
     /*
       Init
     */
 
-    return $('.project').each(function() {
+    $('.project').each(function() {
       var widget;
       widget = new Widget("Voortgangsrapportage Fuo");
       widget.dataUrl = jsRoutes.controllers.Dashboard.getProgressReport($(this).attr("id")).url;
       widget.settingsUrl = jsRoutes.controllers.Dashboard.getProgressReport($(this).attr("id")).url;
       return widget.getData();
     });
+    helper = new Helper("HelperFunctions");
+    return setInterval(helper.doOneCarousel, 15000);
   });
 
 }).call(this);

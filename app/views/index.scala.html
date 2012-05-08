@@ -21,7 +21,7 @@
 				        <tr>
 				            <td style="width: 10%">@dashboard.getId</td>
 				            <td style="width: 66%">
-				            	<a href="@routes.Dashboard.index(dashboard.getId)">@dashboard.getLabel</a>
+				            	<a href="@routes.Dashboard.getProjects(dashboard.getId)">@dashboard.getLabel</a>
 				            </td>
 				            <td style="width: 12%">	                
 				                @form(routes.DashboardSettings.index(dashboard.getId)) {

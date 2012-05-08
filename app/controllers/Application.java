@@ -21,6 +21,7 @@ public class Application extends Controller {
 	
 	public static Result createDashboard() {
 		Form<Dashboard> filledForm = dashboardForm.bindFromRequest();
+		Dashboard.validate(filledForm);
 		if (filledForm.hasErrors()) {
 			return badRequest(views.html.index.render(Dashboard.all(), filledForm));
 		} else {

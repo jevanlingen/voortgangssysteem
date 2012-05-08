@@ -4,16 +4,17 @@
 
 @main("Dashboard - "+ dashboard.getLabel, true) {
 	<script src="@routes.Assets.at("javascripts/dashboard.js")" type="text/javascript"></script>
-	
-	@for(dashboardProject <- dashboardProjects) {
-		<div id="@dashboardProject.getFuo_id" class="halfFrame project">
-			<div class="projectStatusBar">
-				<span>@dashboardProject.getFuo_id |</span>
-				<span>@dashboardProject.getClient_name |</span>
-				<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuo_id">@dashboardProject.getName</a> |</span>
-				<span>@dashboardProject.getProjecttype_description</span>
+	<div id="projects">
+		@for(dashboardProject <- dashboardProjects) {
+			<div id="@dashboardProject.getFuo_id" class="halfFrame project">
+				<div class="projectStatusBar">
+					<span>@dashboardProject.getFuo_id |</span>
+					<span>@dashboardProject.getClient_name |</span>
+					<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuo_id">@dashboardProject.getName</a> |</span>
+					<span>@dashboardProject.getProjecttype_description</span>
+				</div>
 			</div>
-		</div>
-	}
-	<div style="clear: both;"></div>
+		}	
+		<div class="clearBoth"></div>
+	</div>
 }
