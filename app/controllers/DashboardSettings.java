@@ -1,6 +1,7 @@
 package controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import models.api.Projectmanager;
 import models.persistence.Dashboard;
 import models.persistence.DashboardProject;
 import models.persistence.Widget;
+import models.persistence.WidgetSetting;
 import models.view.ViewModelDashboard;
 import play.Logger;
 import play.data.Form;
@@ -86,19 +88,34 @@ public class DashboardSettings extends Controller {
 	
 	public static void createAndSaveWidgets(Long project_id) {
 		//FUO Medewerkers
-		Widget fuo_medewerkers = new Widget();
-		fuo_medewerkers.setName("fuo_medewerkers");
-		fuo_medewerkers.setProject_id(project_id);
-		fuo_medewerkers.setActivated(true);
-		fuo_medewerkers.setUpdateTime(120); //standard value, can be omitted
-		Widget.create(fuo_medewerkers);		
+		Widget fuo_voortgangsrapportage = new Widget();
+			fuo_voortgangsrapportage.setName("FuoVoortgangsrapportage");
+			fuo_voortgangsrapportage.setProject_id(project_id);
+			fuo_voortgangsrapportage.setActivated(true);
+			fuo_voortgangsrapportage.setUpdateTime(1); //1 minute for testing cases! TODO CHANGE THIS VALUE
+		Widget.create(fuo_voortgangsrapportage);
+		List<WidgetSetting> widgetSettings = new ArrayList<WidgetSetting>();
+		    WidgetSetting ws = new WidgetSetting();
+		    ws.setType("bi");
+		    ws.setName("hours_worked:>:hours_total");
+		    widgetSettings.add(ws);
+		    fuo_voortgangsrapportage.setWidgetSettings(widgetSettings);
+	    fuo_voortgangsrapportage.update();
 		
-		//Sonar
-		Widget sonar = new Widget();
-		sonar.setName("sonar");
-		sonar.setProject_id(project_id);
-		sonar.setActivated(true);
-		Widget.create(sonar);		
+//		//FUO Medewerkers
+//		Widget fuo_medewerkers = new Widget();
+//		fuo_medewerkers.setName("fuo_medewerkers");
+//		fuo_medewerkers.setProject_id(project_id);
+//		fuo_medewerkers.setActivated(true);
+//		fuo_medewerkers.setUpdateTime(120); //standard value, can be omitted
+//		Widget.create(fuo_medewerkers);		
+//		
+//		//Sonar
+//		Widget sonar = new Widget();
+//		sonar.setName("sonar");
+//		sonar.setProject_id(project_id);
+//		sonar.setActivated(true);
+//		Widget.create(sonar);		
 	}
 	
 	public static Map<String, String> getProjectManagers(List<Projectmanager> projectmanagersList) {

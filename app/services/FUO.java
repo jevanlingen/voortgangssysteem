@@ -66,22 +66,22 @@ public class FUO {
 		return projects;
 	}
 	
-	public static ProgressReport getLastProgressReportById(Long id) {
+	public static ProgressReport getLastProgressReportById(int id) {
 		String sql = 
 				"SELECT"
 				  +"(SELECT SUM(hours) FROM view_voortgangsdashboard_registeredhours WHERE project_id = "+id+") AS hours_worked,"
 				  +"SUM(hours_realised) AS hours_realised, SUM(hours_planned) AS hours_planned,"
-				  +"SUM(hours_todo) AS hours_todo"
-				+"FROM view_voortgangsdashboard_progressline"
+				  +"SUM(hours_todo) AS hours_todo,"
+				  +"(SELECT SUM(hours) FROM view_voortgangsdashboard_module WHERE project_id = "+id+") AS hours_total,"
+				  +"(SELECT DATE(hours_collected_till) FROM view_voortgangsdashboard_progressreport WHERE project_id = "+id+") AS last_update_date "
+				+"FROM view_voortgangsdashboard_progressline "
 				+"WHERE progressreport_id ="
 				+"("
 					+"SELECT id FROM view_voortgangsdashboard_progressreport WHERE project_id = "+id
-						+"AND"
+						+" AND "
 					+"sequence = (SELECT MAX(sequence) FROM view_voortgangsdashboard_progressreport WHERE project_id = "+id+")"
 				+");";
 		
-		Logger.info(sql);
-
 		List<ProgressReport> projects = FUOconnection.executeSQLStatement(sql, new DbProcessor<ProgressReport>() {
 
 			@Override
@@ -90,7 +90,7 @@ public class FUO {
 								
 				try {
 					while (rs.next()) {
-						progressReportList.add( new ProgressReport(rs.getDouble("hours_worked"), rs.getDouble("hours_realised"), rs.getDouble("hours_planned"), rs.getDouble("hours_todo")) );
+						progressReportList.add( new ProgressReport(rs.getDouble("hours_worked"), rs.getDouble("hours_realised"), rs.getDouble("hours_planned"), rs.getDouble("hours_todo"), rs.getDouble("hours_total"), rs.getString("last_update_date")) );
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

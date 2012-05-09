@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.api.ProgressReport;
 import models.persistence.DashboardProject;
 
 import play.Logger;
@@ -17,12 +18,5 @@ public class Dashboard  extends Controller {
 		List<DashboardProject> listDashboardProjects = DashboardProject.getProjectsByDashboardId(dashboard_id);
 		
 		return ok(views.html.dashboard.render(dashboard, listDashboardProjects));
-	}
-	
-	public static Result getProgressReport(Long project_id) {
-		Logger.info("HIJ KOMT HIER");
-		//response().setContentType("application/json");
-		//return ok(toJson(FUO.getLastProgressReportById(project_id)));
-		return(ok("hoi"));
 	}
 }

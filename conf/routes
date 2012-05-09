@@ -3,26 +3,27 @@
 # ~~~~
 
 # Home page
-GET     /                           		controllers.Application.index()
-GET		/dashboards							controllers.Application.getDashboards()
-POST	/createDashboard					controllers.Application.createDashboard()
-POST	/deleteDashboard:id/delete			controllers.Application.deleteDashboard(id: Long)
+GET     /                           			controllers.Application.index()
+GET		/dashboards								controllers.Application.getDashboards()
+POST	/createDashboard						controllers.Application.createDashboard()
+POST	/deleteDashboard:id/delete				controllers.Application.deleteDashboard(id: Long)
 
 # Settings
-GET		/dashboard/settings/:id				controllers.DashboardSettings.index(id: Long)
-POST	/saveSetting:id						controllers.DashboardSettings.saveSetting(id: Long)
+GET		/dashboard/settings/:id					controllers.DashboardSettings.index(id: Long)
+POST	/saveSetting:id							controllers.DashboardSettings.saveSetting(id: Long)
 
 #Widgets
-GET		/getDashboard/getProgressReport/:id	controllers.Dashboard.getProgressReport(id: Long)
+GET		/dashboard/FuoVoortgangsrapportage/:id	controllers.Widget.getFuoVoortgangsrapportage(id: Long)
+GET		/dashboard/widgets/:id					controllers.Widget.getWidgets(id: Long)
 
 # WidgetSettings
-POST	/saveWidgets:id						controllers.Widget.saveWidgets(id: Long)
+POST	/saveWidgets:id							controllers.Widget.saveWidgets(id: Long)
 
 #Dashboard
-GET		/dashboard/:id						controllers.Dashboard.getProjects(id: Long)
+GET		/dashboard/:id							controllers.Dashboard.getProjects(id: Long)
 
 # Javascript routing
-GET		/assets/javascripts/routes			controllers.Application.javascriptRoutes()
+GET		/assets/javascripts/routes				controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file						controllers.Assets.at(path="/public", file)
+GET     /assets/*file							controllers.Assets.at(path="/public", file)

@@ -19,6 +19,22 @@ $(document).ready(function() {
 		$('#widgetSetting_'+ $(this).attr('id').split('_')[1]).show();
 	});
 	///---- END WIDGET TABS ----///
+	$('.widgetSettingType select').each(function() {
+		if($(this).val() == "bi") {
+			$(this).parents('.widgetSettingFrame').find(".widgetSettingValue").hide();
+		}
+	});
+	
+	$('.widgetSettingType select').change(function() {	
+		if($(this).val() == "bi") {
+			$(this).parents('.widgetSettingFrame').find(".widgetSettingValue").hide();
+		}
+		else {
+			$(this).parents('.widgetSettingFrame').find(".widgetSettingValue").show();
+		}
+	});
+	
+	///---- HIDE FIELDS FOR BI TYPES SETTINGWIDGETS ----///
 	
 	//Submit #settingsDashbaordForm
 	$('#settingsDashbaordForm').submit(function() {
@@ -36,7 +52,7 @@ $(document).ready(function() {
 	//Submit #SettingsWidgetForm
 	$('#settingsWidgetForm').submit(function() {
 		$(".widgetSettingFrame").each(function(i) {
-			$(this).find('input').each(function() {
+			$(this).find('input, select').each(function() {
 				$(this).attr('name', $(this).attr('name').replace($(this).attr('name'), 'widgetList[' + i + '].'+$(this).attr('name')));
 			});
 		});

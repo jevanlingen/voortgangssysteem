@@ -58,6 +58,13 @@
 	    					<input type="hidden" name="id" value="@widget.getId" />
 	    					@checkbox(mapOfFormWidgets(widget.getId)("activated"), '_label -> "Toon op dashboard")
 	    					@inputText(mapOfFormWidgets(widget.getId)("updateTime"), '_label -> "Update time", '_showConstraints -> false )
+	    					
+	    					@for(i <- 0 until widget.getWidgetSettings.length) {
+	    						<input type="hidden" name="widgetSettings[@i].id" value="@widget.getWidgetSettings.get(i).getId" />
+	    						@select(field = mapOfFormWidgets(widget.getId)("widgetSettings["+i+"].type"), options = Seq("single" -> "single", "bi" -> "bi"), '_label -> "Type", '_class -> "widgetSettingType" )
+	    						@inputText(mapOfFormWidgets(widget.getId)("widgetSettings["+i+"].name"), '_label -> "Naam" )
+	    						@inputText(mapOfFormWidgets(widget.getId)("widgetSettings["+i+"].value"), '_label -> "Waarde", '_class -> "widgetSettingValue" )
+	    					}
 	    				</div>
 	    			}	 
 

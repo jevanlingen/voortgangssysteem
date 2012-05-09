@@ -15,8 +15,7 @@ public class WidgetSetting extends Model {
 	@GeneratedValue
 	private Long id;
 	
-	private Long widget_id;
-	
+	private String type;
 	private String name;
 	private String value;
 	
@@ -33,17 +32,13 @@ public class WidgetSetting extends Model {
 	public static void delete(Long id) {
 		find.byId(id).delete();
 	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public Long getWidget_id() {
-		return widget_id;
-	}
-
-	public void setWidget_id(Long widget_id) {
-		this.widget_id = widget_id;
 	}
 
 	public String getName() {
@@ -60,5 +55,13 @@ public class WidgetSetting extends Model {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

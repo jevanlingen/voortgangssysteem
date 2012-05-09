@@ -100,5 +100,13 @@ public class Widget extends Model {
 
 	public void setActivated(boolean activated) {
 		this.activated = activated;
+	}	
+
+	public List<WidgetSetting> getWidgetSettings() {
+		return widgetSettings;
+	}
+
+	public void setWidgetSettings(List<WidgetSetting> widgetSettings) {
+		this.widgetSettings = widgetSettings;
 	}
 }

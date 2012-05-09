@@ -40,9 +40,10 @@ public class Application extends Controller {
         response().setContentType("text/javascript");
         return ok(
             Routes.javascriptRouter("jsRoutes",
-            
-                // Routes for Projects
-                controllers.routes.javascript.Dashboard.getProgressReport()
+            		
+                // Routes for Widgets
+            	controllers.routes.javascript.Widget.getFuoVoortgangsrapportage(),
+                controllers.routes.javascript.Widget.getWidgets()
                 
             )
         );
