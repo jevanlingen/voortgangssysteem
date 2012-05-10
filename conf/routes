@@ -13,8 +13,9 @@ GET		/dashboard/settings/:id					controllers.DashboardSettings.index(id: Long)
 POST	/saveSetting:id							controllers.DashboardSettings.saveSetting(id: Long)
 
 #Widgets
-GET		/dashboard/FuoVoortgangsrapportage/:id	controllers.Widget.getFuoVoortgangsrapportage(id: Long)
-GET		/dashboard/widgets/:id					controllers.Widget.getWidgets(id: Long)
+GET		/FuoVoortgangsrapportage/:id			controllers.Widget.getFuoVoortgangsrapportage(id: Long)
+GET		/FuoModules/:id							controllers.Widget.getFuoModules(id: Long)
+GET		/widgets/:id							controllers.Widget.getWidgets(id: Long)
 
 # WidgetSettings
 POST	/saveWidgets:id							controllers.Widget.saveWidgets(id: Long)

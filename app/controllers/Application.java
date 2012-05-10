@@ -43,8 +43,8 @@ public class Application extends Controller {
             		
                 // Routes for Widgets
             	controllers.routes.javascript.Widget.getFuoVoortgangsrapportage(),
-                controllers.routes.javascript.Widget.getWidgets()
-                
+            	controllers.routes.javascript.Widget.getFuoModules(),
+                controllers.routes.javascript.Widget.getWidgets()                
             )
         );
     }

@@ -5,7 +5,7 @@ body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
 	margin: 0;
 }
 
@@ -202,6 +202,10 @@ table tr.odd th, table tr.odd td {
 	padding: 3px 3px 3px 5px;
 }
 
+.FuoVoortgangsrapportage {	
+    border-bottom: 1px solid black;
+}
+
 .FuoVoortgangsrapportage table {
 	border-left: 0;
 	border-top: 1px solid black;
@@ -210,4 +214,15 @@ table tr.odd th, table tr.odd td {
 .FuoVoortgangsrapportage table td, table th {
 	border-bottom: 0;
 	padding-left: 8px;
+}
+
+.widget {
+	width: 49%;
+	margin: 12px;
+	border: 1px solid black;
+	padding: 7px;
+}
+
+.widget table thead tr th {
+	text-transform: none;
 }

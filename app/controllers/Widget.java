@@ -33,6 +33,12 @@ public class Widget extends Controller {
 		return ok(toJson(FUO.getLastProgressReportById(fuo_id)));
 	}
 	
+	public static Result getFuoModules(Long widget_id) {
+		int fuo_id = DashboardProject.getProject(models.persistence.Widget.getWidget(widget_id).getProject_id()).getFuo_id();
+		response().setContentType("application/json");
+		return ok(FUO.getFuoModules(fuo_id).toString());
+	}
+	
 	public static Result getWidgets(Long project_id) {		
 		response().setContentType("application/json");
 		return ok(toJson(models.persistence.Widget.getWidgetsByProjectId(project_id)));

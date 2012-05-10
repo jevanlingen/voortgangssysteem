@@ -15,8 +15,7 @@ $(document).ready ->
     updateSettings: ->
       #console.log this.settingsUrl
 
-    getData: ->
-      console.log this.project_id     
+    getData: ->    
       $.ajax this.dataUrl,
         type: 'GET'
         dataType: 'json'
@@ -27,7 +26,11 @@ $(document).ready ->
             this.executeAlert()
           
     setDataInView: (key, value) ->
-      $('#'+this.project_id+" ."+key).text value
+      if value isnt null and typeof value is "object" and $('#'+this.project_id+' .'+this.name).is('.fillTableModule')
+        tds = ("<td>#{val}</td>" for key, val of value).join().replace /,/g, ""
+        $('#'+this.project_id+' .'+this.name+' table > tbody:last').append("<tr>#{tds}</tr>")
+      else
+        $('#'+this.project_id+" ."+key).text value
       
     executeAlert: ->
       for widgetSetting in this.widgetSettings

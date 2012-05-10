@@ -3,16 +3,13 @@ package services;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import play.Logger;
+import org.json.JSONArray;
 
 import models.api.Projectmanager;
 import models.api.ProgressReport;
 import models.persistence.DashboardProject;
-
 
 public class FUO {
 
@@ -20,7 +17,6 @@ public class FUO {
 		String sql = "SELECT id, CASE WHEN (infix IS NULL) OR (infix = ' ') THEN concat(firstname, ' ', lastname) ELSE concat(firstname, ' ', infix, ' ', lastname) END AS name FROM view_voortgangsdashboard_employee WHERE id IN (SELECT DISTINCT owner_id FROM view_voortgangsdashboard_project WHERE DATE(end_date) >= DATE(NOW()) AND owner_id IS NOT NULL)";
 		List<Projectmanager> projectManagers = FUOconnection.executeSQLStatement(
 				sql, new DbProcessor<Projectmanager>() {
-
 					@Override
 					public List<Projectmanager> process(ResultSet rs) {
 						List<Projectmanager> projectManagers = new ArrayList<Projectmanager>();
@@ -102,6 +98,11 @@ public class FUO {
 		});
 		
 		return projects.get(0);
+	}
+	
+	public static JSONArray getFuoModules(int project_id) {
+		String sql = "SELECT name, view_voortgangsdashboard_module.hours AS planned_hours, SUM(view_voortgangsdashboard_registeredhours.hours) AS realised_hours FROM view_voortgangsdashboard_module, view_voortgangsdashboard_registeredhours WHERE view_voortgangsdashboard_module.project_id = "+project_id+" AND view_voortgangsdashboard_registeredhours.project_id = "+project_id+" AND view_voortgangsdashboard_module.id = view_voortgangsdashboard_registeredhours.module_id AND module_id IN (SELECT id FROM view_voortgangsdashboard_module WHERE project_id = "+project_id+") GROUP BY module_id";
+		return FUOconnection.executeSQLStatement(sql);
 	}
 }
 
