@@ -150,7 +150,7 @@ table tr.odd th, table tr.odd td {
 	border: 1px solid black;
 	margin-bottom: 10px;
 	width: 49.5%;
-	float: right;
+	float: left;
 }
 
 /* Settings pagina */
@@ -198,8 +198,15 @@ table tr.odd th, table tr.odd td {
 }
 
 /* Dashboard pagina */
+.project {
+	border: 1px solid black;
+	width: 49.5%;
+  	float: left;
+}
+
 .projectStatusBar {
 	padding: 3px 3px 3px 5px;
+	border-bottom: 1px solid black;
 }
 
 .FuoVoortgangsrapportage {	
@@ -208,7 +215,6 @@ table tr.odd th, table tr.odd td {
 
 .FuoVoortgangsrapportage table {
 	border-left: 0;
-	border-top: 1px solid black;
 }
 
 .FuoVoortgangsrapportage table td, table th {

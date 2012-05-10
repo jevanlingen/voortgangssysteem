@@ -9,8 +9,7 @@ $(document).ready ->
       
     getRefresh: ->
       this.updateSettings()
-      this.getData()
-      
+      this.getData() 
 
     updateSettings: ->
       #console.log this.settingsUrl
@@ -22,8 +21,13 @@ $(document).ready ->
         success: (data) =>
           this.data = data
           if this.activated
+            $('#'+this.project_id+' .'+this.name).show()
             this.setDataInView k,v for k,v of data
             this.executeAlert()
+          else
+            $('#'+this.project_id+' .'+this.name).hide()
+            
+          helper.redrawWidgetField()     
           
     setDataInView: (key, value) ->
       if value isnt null and typeof value is "object" and $('#'+this.project_id+' .'+this.name).is('.fillTableModule')
@@ -51,6 +55,9 @@ $(document).ready ->
   class Helper
     construtor: (@name) ->
     
+    redrawWidgetField: ->
+      $('#projects').masonry 'reload'
+    
     doOneCarousel: ->
       $('#projects .clearBoth').before $('.project::eq(0), .project::eq(1)')
     
@@ -65,7 +72,11 @@ $(document).ready ->
  
   ###
   Init
-  ### 
+  ###
+  $('#projects').masonry({
+    itemSelector : '.project'
+  });
+  
   #Add helper class
   helper = new Helper "HelperFunctions"
   
