@@ -199,10 +199,10 @@ table tr.odd th, table tr.odd td {
 
 /* Dashboard pagina */
 .marginPaginaDashboard {
-	padding: 0 5px 5px 5px !important;
+	padding: 0 5px 5px 8px !important;
 }
 
-.project {
+#projects .project {
 	border: 1px solid black;
 	width: 48.8%;
   	float: left;
