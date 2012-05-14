@@ -198,10 +198,15 @@ table tr.odd th, table tr.odd td {
 }
 
 /* Dashboard pagina */
+.marginPaginaDashboard {
+	padding: 0 5px 5px 5px !important;
+}
+
 .project {
 	border: 1px solid black;
-	width: 49.5%;
+	width: 48.8%;
   	float: left;
+  	margin: 7px;
 }
 
 .projectStatusBar {

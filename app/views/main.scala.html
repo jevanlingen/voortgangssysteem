@@ -1,4 +1,4 @@
-@(title: String, backToDashboard: Boolean)(content: Html)
+@(title: String, backToDashboard: Boolean, extraStyling: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -20,7 +20,7 @@
 	    	<hr />	    	
 	    </div>
     
-   		 <div id="pagina">
+   		 <div id="pagina" class="@extraStyling">
         	@content
          </div>
     </body>
