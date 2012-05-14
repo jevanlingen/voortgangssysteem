@@ -9,7 +9,9 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
        "mysql" % "mysql-connector-java" % "5.1.18",
-       "org.json" % "json" % "20090211"
+       "org.json" % "json" % "20090211",
+       "org.codehaus.sonar" % "sonar-ws-client" % "2.14",
+       "org.apache.httpcomponents" % "httpclient"% "4.1.2"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

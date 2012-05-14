@@ -36,16 +36,18 @@ $(document).ready ->
       else
         $('#'+this.project_id+" ."+key).text value
       
-    executeAlert: ->
+    executeAlert: ->      
       for widgetSetting in this.widgetSettings
-        if widgetSetting.type is "bi"
-        	valueOperatorValue = widgetSetting.name.split(":")
-        	valueOne = $('#'+this.project_id+' .'+valueOperatorValue[0])
-        	valueTwo = $('#'+this.project_id+' .'+valueOperatorValue[2])
-        	operator = valueOperatorValue[1]
-        	
-        	if helper.evaluate(operator, ((Number) valueOne.text()), ((Number) valueTwo.text()))
-        	  valueTwo.css color:'red'
+        if widgetSetting.type is "single" and ( (Number) widgetSetting.value ) > $('#'+this.project_id+' .'+widgetSetting.name).text().replace "%",""
+          $('#'+this.project_id+' .'+widgetSetting.name).css color:'red'
+        else if widgetSetting.type is "bi"
+          valueOperatorValue = widgetSetting.name.split(":")
+          valueOne = $('#'+this.project_id+' .'+valueOperatorValue[0])
+          valueTwo = $('#'+this.project_id+' .'+valueOperatorValue[2])
+          operator = valueOperatorValue[1]
+          
+          if helper.evaluate(operator, ((Number) valueOne.text()), ((Number) valueTwo.text()))
+            valueTwo.css color:'red'        
         	  
     setUpdateInterval: ->      
       @getData()

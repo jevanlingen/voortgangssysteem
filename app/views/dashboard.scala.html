@@ -10,7 +10,7 @@
 				<div class="projectStatusBar">
 					<span>@dashboardProject.getFuo_id |</span>
 					<span>@dashboardProject.getClient_name |</span>
-					<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuo_id">@dashboardProject.getName</a> |</span>
+					<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuo_id" target="blank_">@dashboardProject.getName</a> |</span>
 					<span>@dashboardProject.getProjecttype_description</span>
 				</div>
 				<div class="FuoVoortgangsrapportage" style="display: none;">
@@ -30,6 +30,7 @@
 					</table>
 				</div>
 				<div class="widgets">
+					
 					<div class="FuoModules fillTableModule widget" style="display: none;">
 						<h4>Fuo - Modules</h4>
 						<hr />
@@ -44,6 +45,72 @@
 							<tbody></tbody>
 						</table>
 					</div>
+					
+					<div class="SonarInformation widget" style="display: none;">
+						<h4>Sonar - Overzicht project</h4>
+						<hr />
+						<div class="sonarInformationInnerDiv" style="width: 120px">
+							<h5>Violations</h5>
+							<hr />
+							<table>
+								<tbody>
+									<tr>
+										<td>Blocker</td>
+										<td class="blocker_violations"></td>
+									</tr>
+									<tr>
+										<td>Critical</td>
+										<td class="critical_violations"></td>
+									</tr>
+									<tr>
+										<td>Major</td>
+										<td class="major_violations"></td>
+									</tr>
+									<tr>
+										<td>Minor</td>
+										<td class="minor_violations"></td>
+									</tr>
+									<tr>
+										<td>Info</td>
+										<td class="minor_violations"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><hr /></td>
+									</tr>
+									<tr>
+										<td>Totaal</td>
+										<td class="violations"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="sonarInformationInnerDiv">
+							<h5>Andere informatie</h5>
+							<hr />
+							<table>
+								<tbody>
+									<tr>
+										<td>Lines of code</td>
+										<td class="ncloc"></td>
+									</tr>
+									<tr>
+										<td>Code coverage</td>
+										<td class="coverage"></td>
+									</tr>
+									<tr>
+										<td>Quality Index</td>
+										<td class="qi-quality-index"></td>
+									</tr>
+									<tr>
+										<td>Unit test success</td>
+										<td class="test_success_density"></td>
+								</tbody>
+							</table>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+					
 				</div>
 			</div>
 		}

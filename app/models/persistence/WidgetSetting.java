@@ -21,6 +21,12 @@ public class WidgetSetting extends Model {
 	
 	public static Finder<Long, WidgetSetting> find = new Finder<Long, WidgetSetting>(Long.class, WidgetSetting.class);
 
+	public WidgetSetting(String type, String name, String value) {
+		this.type = type;
+		this.name = name;
+		this.value = value;
+	}
+	
 	public static void create(WidgetSetting widgetSetting) {
 		widgetSetting.save();
 	}

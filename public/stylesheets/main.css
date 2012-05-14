@@ -5,7 +5,7 @@ body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
 	margin: 0;
 }
 
@@ -227,11 +227,28 @@ table tr.odd th, table tr.odd td {
 	padding-left: 8px;
 }
 
+.SonarInformation table, table td, table th {
+	border: 0;
+}
+
+.SonarInformation table td:nth-child(2) {
+	text-align: right;
+	padding-right: 5px;
+}
+
 .widget {
 	width: 49%;
 	margin: 12px;
 	border: 1px solid black;
 	padding: 7px;
+}
+
+.sonarInformationInnerDiv {
+	float: left;
+	width: 205px;
+	margin-right: 17px;
+	border: 1px solid black;	
+  	padding: 5px;
 }
 
 .widget table thead tr th {

@@ -95,19 +95,16 @@ public class DashboardSettings extends Controller {
 			fuo_voortgangsrapportage.setUpdateTime(120);
 		Widget.create(fuo_voortgangsrapportage);
 		List<WidgetSetting> widgetSettings = new ArrayList<WidgetSetting>();
-		    WidgetSetting ws = new WidgetSetting();
-		    ws.setType("bi");
-		    ws.setName("hours_worked:>:hours_total");
-		    widgetSettings.add(ws);
-		    fuo_voortgangsrapportage.setWidgetSettings(widgetSettings);
+			widgetSettings.add( new WidgetSetting("bi", "hours_worked:>:hours_total", null) );
+	    fuo_voortgangsrapportage.setWidgetSettings(widgetSettings);
 	    fuo_voortgangsrapportage.update();
 	    
 		//FUO Modules
 		Widget fuo_modules = new Widget();
-		fuo_modules.setName("FuoModules");
-		fuo_modules.setProject_id(project_id);
-		fuo_modules.setActivated(true);
-		fuo_modules.setUpdateTime(120); //standard value, can be omitted
+			fuo_modules.setName("FuoModules");
+			fuo_modules.setProject_id(project_id);
+			fuo_modules.setActivated(true);
+			fuo_modules.setUpdateTime(120); //standard value, can be omitted
 		Widget.create(fuo_modules);
 		
 //		//FUO Medewerkers
@@ -118,12 +115,20 @@ public class DashboardSettings extends Controller {
 //		fuo_medewerkers.setUpdateTime(120); //standard value, can be omitted
 //		Widget.create(fuo_medewerkers);		
 //		
-//		//Sonar
-//		Widget sonar = new Widget();
-//		sonar.setName("sonar");
-//		sonar.setProject_id(project_id);
-//		sonar.setActivated(true);
-//		Widget.create(sonar);		
+		//Sonar
+		Widget sonar = new Widget();
+			sonar.setName("SonarInformation");
+			sonar.setProject_id(project_id);
+			sonar.setActivated(true);
+		Widget.create(sonar);
+		widgetSettings = new ArrayList<WidgetSetting>();
+			widgetSettings.add( new WidgetSetting("single", "blocker_violations", "0") );
+			widgetSettings.add( new WidgetSetting("single", "critical_violations", "0") );
+			widgetSettings.add( new WidgetSetting("single", "coverage", "60") );
+			widgetSettings.add( new WidgetSetting("single", "test_success_density", "90") );
+			widgetSettings.add( new WidgetSetting("single", "qi-quality-index", "6") );
+		sonar.setWidgetSettings(widgetSettings);
+	    sonar.update();
 	}
 	
 	public static Map<String, String> getProjectManagers(List<Projectmanager> projectmanagersList) {
