@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import play.Logger;
+import play.api.db.*;
 
 public class FUOconnection {	
 	private static final String MYSQL_AUTO_RECONNECT = "autoReconnect";
