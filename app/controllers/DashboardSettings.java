@@ -90,7 +90,7 @@ public class DashboardSettings extends Controller {
 		//FUO Medewerkers
 		Widget fuo_voortgangsrapportage = new Widget();
 			fuo_voortgangsrapportage.setName("FuoVoortgangsrapportage");
-			fuo_voortgangsrapportage.setProject_id(project_id);
+			fuo_voortgangsrapportage.setProjectId(project_id);
 			fuo_voortgangsrapportage.setActivated(true);
 			fuo_voortgangsrapportage.setUpdateTime(120);
 		Widget.create(fuo_voortgangsrapportage);
@@ -102,7 +102,7 @@ public class DashboardSettings extends Controller {
 		//FUO Modules
 		Widget fuo_modules = new Widget();
 			fuo_modules.setName("FuoModules");
-			fuo_modules.setProject_id(project_id);
+			fuo_modules.setProjectId(project_id);
 			fuo_modules.setActivated(true);
 			fuo_modules.setUpdateTime(120); //standard value, can be omitted
 		Widget.create(fuo_modules);
@@ -118,7 +118,7 @@ public class DashboardSettings extends Controller {
 		//Sonar
 		Widget sonar = new Widget();
 			sonar.setName("SonarInformation");
-			sonar.setProject_id(project_id);
+			sonar.setProjectId(project_id);
 			sonar.setActivated(true);
 		Widget.create(sonar);
 		widgetSettings = new ArrayList<WidgetSetting>();

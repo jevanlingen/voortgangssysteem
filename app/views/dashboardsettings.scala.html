@@ -19,20 +19,20 @@
 		   		@for(i <- 0 until projects.size) {
 		   			<span class="project">
 		   				<input type="hidden" name="id" value="@( controllers.DashboardSettings.getProjectIdForExistedProject(projects.get(i), settingsForm.get().getProjects()) )" />
-			   			<input type="hidden" name="fuo_id" value="@projects.get(i).getFuo_id" />
-			   			<input type="hidden" name="client_name" value="@projects.get(i).getClient_name" />
-			   			<input type="hidden" name="owner_id" value="@projects.get(i).getOwner_id" />
+			   			<input type="hidden" name="fuoId" value="@projects.get(i).getFuoId" />
+			   			<input type="hidden" name="clientName" value="@projects.get(i).getClientName" />
+			   			<input type="hidden" name="ownerId" value="@projects.get(i).getOwnerId" />
 			   			<input type="hidden" name="name" value="@projects.get(i).getName" />
-			   			<input type="hidden" name="projecttype_description" value="@projects.get(i).getProjecttype_description" />
-			   			<input type="hidden" name="dashboard_id" value="@dashboard.getId" />
-			   			<dl class="@(projects.get(i).getOwner_id +" hide") " id="@(projects.get(i).getFuo_id)_field">
-							    <dt><label for="@(projects.get(i).getFuo_id)">@(projects.get(i).getName)</label></dt>
+			   			<input type="hidden" name="projecttypeDescription" value="@projects.get(i).getProjecttypeDescription" />
+			   			<input type="hidden" name="dashboardId" value="@dashboard.getId" />
+			   			<dl class="@(projects.get(i).getOwnerId +" hide")" id="@(projects.get(i).getFuoId)_field">
+							    <dt><label for="@(projects.get(i).getFuoId)">@(projects.get(i).getName)</label></dt>
 							    <dd>
-							    <input type="checkbox" id="@(projects.get(i).getFuo_id)" name="projects" value="true" @(if( controllers.DashboardSettings.projectExistInDB(projects.get(i), settingsForm.get().getProjects()) ) "checked")>
+							    <input type="checkbox" id="@(projects.get(i).getFuoId)" name="projects" value="true" @(if( controllers.DashboardSettings.projectExistInDB(projects.get(i), settingsForm.get().getProjects()) ) "checked")>
 							    <span></span>
 							</dd>
 						</dl>
-			   			@* @checkbox(settingsForm("projects"), 'id -> projects.get(i).getFuo_id, '_class ->  (projects.get(i).getOwner_id +" hide"), '_label -> projects.get(i).getName) *@
+			   			@* @checkbox(settingsForm("projects"), 'id -> projects.get(i).getFuoId, '_class ->  (projects.get(i).getOwnerId +" hide"), '_label -> projects.get(i).getName) *@
 			   		</span>
 			   	}
 			</div>

@@ -10,51 +10,52 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
+@SuppressWarnings("serial")
 public class DashboardProject extends Model {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	private int fuo_id;
+	private int fuoId;
 	
-	private String client_name;
+	private String clientName;
 	
 	@Required
 	private String name;
 
-	private int owner_id;
+	private int ownerId;
 	
-	private Long dashboard_id;
+	private Long dashboardId;
 	
-	private String projecttype_description;
+	private String projecttypeDescription;
 	
 	public static Finder<Long, DashboardProject> find = new Finder<Long, DashboardProject>(Long.class, DashboardProject.class);
 
-	public DashboardProject(int fuo_id, int owner_id, String name) {
-		this.fuo_id = fuo_id;
-		this.owner_id = owner_id;
+	public DashboardProject(int fuoId, int ownerId, String name) {
+		this.fuoId = fuoId;
+		this.ownerId = ownerId;
 		this.name = name;
 	}
 	
 	public DashboardProject(int fuo_id, String client_name, int owner_id, String name, String projecttype_description) {
-		this.fuo_id = fuo_id;
-		this.client_name = client_name;
-		this.owner_id = owner_id;
+		this.fuoId = fuo_id;
+		this.clientName = client_name;
+		this.ownerId = owner_id;
 		this.name = name;
-		this.projecttype_description = projecttype_description;
+		this.projecttypeDescription = projecttype_description;
 	}
 	
 	public static List<DashboardProject> getProjectsByDashboardId(Long id) {
 		return find.where()
-	            .eq("dashboard_id", id)
+	            .eq("dashboardId", id)
 	            .findList();
 	}
 	
 	public static List<Long> getProjectIdsByDashboardId(Long id) {
 		List<Long> ids = new ArrayList<Long>();
 		List<Object> listObjectIds = find.where()
-				.eq("dashboard_id", id)
+				.eq("dashboardId", id)
 				.findIds();
 		
 		for (Object listObjectId : listObjectIds) {
@@ -70,9 +71,9 @@ public class DashboardProject extends Model {
 	
 	public static boolean projectExist(DashboardProject dashboardProject) {
 		int rowCount = find.where()
-		 .eq("fuo_id", dashboardProject.getFuo_id())
-         .eq("owner_id", dashboardProject.getOwner_id())
-         .eq("dashboard_id", dashboardProject.getDashboard_id())
+		 .eq("fuoId", dashboardProject.getFuoId())
+         .eq("ownerId", dashboardProject.getOwnerId())
+         .eq("dashboardId", dashboardProject.getDashboardId())
          .findRowCount();
 		
 		return (rowCount > 0) ? true : false;
@@ -80,9 +81,9 @@ public class DashboardProject extends Model {
 	
 	public static boolean projectExist(int fuo_id, int owner_id, Long dashboard_id) {
 		int rowCount = find.where()
-		 .eq("fuo_id", fuo_id)
-         .eq("owner_id", owner_id)
-         .eq("dashboard_id", dashboard_id)
+		 .eq("fuoId", fuo_id)
+         .eq("ownerId", owner_id)
+         .eq("dashboardId", dashboard_id)
          .findRowCount();
 		
 		return (rowCount > 0) ? true : false;
@@ -113,12 +114,12 @@ public class DashboardProject extends Model {
 		this.id = id;
 	}
 
-	public int getFuo_id() {
-		return fuo_id;
+	public int getFuoId() {
+		return fuoId;
 	}
 
-	public void setFuo_id(int fuo_id) {
-		this.fuo_id = fuo_id;
+	public void setFuoId(int fuo_id) {
+		this.fuoId = fuo_id;
 	}
 
 	public String getName() {
@@ -129,35 +130,35 @@ public class DashboardProject extends Model {
 		this.name = name;
 	}
 
-	public int getOwner_id() {
-		return owner_id;
+	public int getOwnerId() {
+		return ownerId;
 	}
 
-	public void setOwner_id(int owner_id) {
-		this.owner_id = owner_id;
+	public void setOwnerId(int owner_id) {
+		this.ownerId = owner_id;
 	}
 
-	public Long getDashboard_id() {
-		return dashboard_id;
+	public Long getDashboardId() {
+		return dashboardId;
 	}
 
-	public void setDashboard_id(Long dashboard_id) {
-		this.dashboard_id = dashboard_id;
+	public void setDashboardId(Long dashboard_id) {
+		this.dashboardId = dashboard_id;
 	}
 
-	public String getClient_name() {
-		return client_name;
+	public String getClientName() {
+		return clientName;
 	}
 
-	public void setClient_name(String client_name) {
-		this.client_name = client_name;
+	public void setClientName(String client_name) {
+		this.clientName = client_name;
 	}
 
-	public String getProjecttype_description() {
-		return projecttype_description;
+	public String getProjecttypeDescription() {
+		return projecttypeDescription;
 	}
 
-	public void setProjecttype_description(String projecttype_description) {
-		this.projecttype_description = projecttype_description;
+	public void setProjecttypeDescription(String projecttype_description) {
+		this.projecttypeDescription = projecttype_description;
 	}
 }

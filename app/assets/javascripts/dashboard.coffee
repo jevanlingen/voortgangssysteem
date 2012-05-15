@@ -3,7 +3,7 @@ $(document).ready ->
   Classes
   ###
   class Widget
-    constructor: (@activated, @id, @name, @project_id, @updateTime, @widgetSettings) ->
+    constructor: (@activated, @id, @name, @projectId, @updateTime, @widgetSettings) ->
       this.dataUrl = eval "jsRoutes.controllers.Widget.get#{this.name}(this.id).url"
       this.setUpdateInterval()
       
@@ -21,33 +21,37 @@ $(document).ready ->
         success: (data) =>
           this.data = data
           if this.activated
-            $('#'+this.project_id+' .'+this.name).show()
+            $('#'+this.projectId+' .'+this.name).show()
             this.setDataInView k,v for k,v of data
             this.executeAlert()
           else
-            $('#'+this.project_id+' .'+this.name).hide()
+            $('#'+this.projectId+' .'+this.name).hide()
             
           helper.redrawWidgetField()     
           
     setDataInView: (key, value) ->
-      if value isnt null and typeof value is "object" and $('#'+this.project_id+' .'+this.name).is('.fillTableModule')
+      if value isnt null and typeof value is "object" and $('#'+this.projectId+' .'+this.name).is('.fillTableModule')
         tds = ("<td>#{val}</td>" for key, val of value).join().replace /,/g, ""
-        $('#'+this.project_id+' .'+this.name+' table > tbody:last').append("<tr>#{tds}</tr>")
+        $('#'+this.projectId+' .'+this.name+' table > tbody:last').append("<tr>#{tds}</tr>")
       else
-        $('#'+this.project_id+" ."+key).text value
+        $('#'+this.projectId+" ."+key).text value
       
     executeAlert: ->      
       for widgetSetting in this.widgetSettings
-        if widgetSetting.type is "single" and ( (Number) widgetSetting.value ) > $('#'+this.project_id+' .'+widgetSetting.name).text().replace "%",""
-          $('#'+this.project_id+' .'+widgetSetting.name).css color:'red'
+        if widgetSetting.type is "single" and ( (Number) widgetSetting.value ) > $('#'+this.projectId+' .'+widgetSetting.name).text().replace "%",""
+          $('#'+this.projectId+' .'+widgetSetting.name).css color:'red'
+          #QUICK EN DIRTY -- NOT UPDATABLE PROOF
+          $('#'+this.projectId+' .projectStatusBar').css 'background-color':'pink'
         else if widgetSetting.type is "bi"
           valueOperatorValue = widgetSetting.name.split(":")
-          valueOne = $('#'+this.project_id+' .'+valueOperatorValue[0])
-          valueTwo = $('#'+this.project_id+' .'+valueOperatorValue[2])
+          valueOne = $('#'+this.projectId+' .'+valueOperatorValue[0])
+          valueTwo = $('#'+this.projectId+' .'+valueOperatorValue[2])
           operator = valueOperatorValue[1]
           
           if helper.evaluate(operator, ((Number) valueOne.text()), ((Number) valueTwo.text()))
-            valueTwo.css color:'red'        
+            valueTwo.css color:'red'
+            #QUICK EN DIRTY -- NOT UPDATABLE PROOF
+            $('#'+this.projectId+' .projectStatusBar').css 'background-color':'pink'  
         	  
     setUpdateInterval: ->      
       @getData()
@@ -91,7 +95,7 @@ $(document).ready ->
           createWidget object for object in data
   
   createWidget = (x) ->
-    widget = new Widget x.activated, x.id, x.name, x.project_id, x.updateTime, x.widgetSettings
+    widget = new Widget x.activated, x.id, x.name, x.projectId, x.updateTime, x.widgetSettings
        
   #Do extra neccecary steps
   setInterval( helper.doOneCarousel, 150000)

@@ -212,6 +212,7 @@ table tr.odd th, table tr.odd td {
 .projectStatusBar {
 	padding: 3px 3px 3px 5px;
 	border-bottom: 1px solid black;
+	background-color: lightGreen;
 }
 
 .FuoVoortgangsrapportage {	

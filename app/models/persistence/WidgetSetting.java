@@ -9,6 +9,7 @@ import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
 @Entity
+@SuppressWarnings("serial")
 public class WidgetSetting extends Model {
 	
 	@Id

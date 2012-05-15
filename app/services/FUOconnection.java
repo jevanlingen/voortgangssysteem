@@ -19,7 +19,7 @@ public class FUOconnection {
     private static final String DATABASE_PASSWORD = "password";
     private static final String DATABASE_USER = "user";
 
-	static Connection conn = null;
+	private static Connection conn = null;
 		
 	public static <T> List<T> executeSQLStatement(String sql, DbProcessor<T> processor) {
 		ResultSet rs = null;

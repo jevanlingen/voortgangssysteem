@@ -10,13 +10,14 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
+@SuppressWarnings("serial")
 public class Widget extends Model {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	private Long project_id;
+	private Long projectId;
 
 	@Required
 	private String name;
@@ -29,30 +30,30 @@ public class Widget extends Model {
 	@OneToMany(cascade=CascadeType.ALL)
 	List<WidgetSetting> widgetSettings = new ArrayList<WidgetSetting>();
 	
-	public static Finder<Long, Widget> find = new Finder<Long, Widget>(Long.class, Widget.class);
+	private static final Finder<Long, Widget> FIND = new Finder<Long, Widget>(Long.class, Widget.class);
 
 	public static void create(Widget widget) {
 		widget.save();
 	}
 
 	public static List<Widget> getWidgets(Long id) {
-		return find.where()
+		return FIND.where()
 	            .eq("id", id)
 	            .findList();
 	}
 	
 	public static List<Widget> getWidgetsByProjectId(Long project_id) {
-		return find.where()
-	            .eq("project_id", project_id)
+		return FIND.where()
+	            .eq("projectId", project_id)
 	            .findList();
 	}
 	
 	public static Widget getWidget(Long id) {
-		return find.byId(id);
+		return FIND.byId(id);
 	}
 	
 	public static void delete(Long id) {
-		find.byId(id).delete();
+		FIND.byId(id).delete();
 	}
 	
 	public static void deleteWidgetsByProject_id(Long project_id) {
@@ -70,12 +71,12 @@ public class Widget extends Model {
 		this.id = id;
 	}
 	
-	public Long getProject_id() {
-		return project_id;
+	public Long getProjectId() {
+		return projectId;
 	}
 
-	public void setProject_id(Long project_id) {
-		this.project_id = project_id;
+	public void setProjectId(Long project_id) {
+		this.projectId = project_id;
 	}
 
 	public String getName() {

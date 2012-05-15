@@ -35,7 +35,7 @@ public class Widget extends Controller {
 	}
 	
 	public static Result getFuoVoortgangsrapportage(Long widget_id) {
-		int fuo_id = DashboardProject.getProject(models.persistence.Widget.getWidget(widget_id).getProject_id()).getFuo_id();
+		int fuo_id = DashboardProject.getProject(models.persistence.Widget.getWidget(widget_id).getProjectId()).getFuoId();
 		
 		response().setContentType("application/json");
 		return ok(toJson(FUO.getLastProgressReportById(fuo_id)));
@@ -53,7 +53,7 @@ public class Widget extends Controller {
 	}
 	
 	public static Result getFuoModules(Long widget_id) {
-		int fuo_id = DashboardProject.getProject(models.persistence.Widget.getWidget(widget_id).getProject_id()).getFuo_id();
+		int fuo_id = DashboardProject.getProject(models.persistence.Widget.getWidget(widget_id).getProjectId()).getFuoId();
 		response().setContentType("application/json");
 		return ok(FUO.getFuoModules(fuo_id).toString());
 	}

@@ -6,26 +6,26 @@
 	<script src="@routes.Assets.at("javascripts/dashboard.js")" type="text/javascript"></script>
 	<div id="projects">
 		@for(dashboardProject <- dashboardProjects) {
-			<div id="@dashboardProject.getId" fuo_id="@dashboardProject.getFuo_id" class="project">
+			<div id="@dashboardProject.getId" fuo_id="@dashboardProject.getFuoId" class="project">
 				<div class="projectStatusBar">
-					<span>@dashboardProject.getFuo_id |</span>
-					<span>@dashboardProject.getClient_name |</span>
-					<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuo_id" target="blank_">@dashboardProject.getName</a> |</span>
-					<span>@dashboardProject.getProjecttype_description</span>
+					<span>@dashboardProject.getFuoId |</span>
+					<span>@dashboardProject.getClientName |</span>
+					<span><a href="https://www.intranet.finalist.com/FacturenOnline/beheerProjecten/ProjectInitAction.do?projectId=@dashboardProject.getFuoId" target="blank_">@dashboardProject.getName</a> |</span>
+					<span>@dashboardProject.getProjecttypeDescription</span>
 				</div>
 				<div class="FuoVoortgangsrapportage" style="display: none;">
 					<table>
 						<tr>
 							<td>Planning: <span class="planning"></span></td>
-							<td>Todo: <span class="hours_todo"></span></td>
+							<td>Todo: <span class="hoursTodo"></span></td>
 							<td>Afwijking: <span class="afwijking"></span><span> uur</span></td>
-							<td>Uren: <span class="hours_worked"></span><span> / </span><span class="hours_total"></span></td>							
+							<td>Uren: <span class="hoursWorked"></span><span> / </span><span class="hours_total"></span></td>							
 						</tr>
 						<tr>
-							<td>Nieuw inzicht: <span class="nieuw_inzicht"></span></td>
-							<td>Gereed: <span class="percentage_gereed"></span><span> %</span></td>
-							<td>Percentage afwijking: <span class="percentage_afwijking"></span><span> %</span></td>
-							<td>Laatst op geschreven: <span class="last_update_date"></span></td>						
+							<td>Nieuw inzicht: <span class="nieuwInzicht"></span></td>
+							<td>Gereed: <span class="percentageGereed"></span><span> %</span></td>
+							<td>Percentage afwijking: <span class="percentageAfwijking"></span><span> %</span></td>
+							<td>Laatst op geschreven: <span class="lastUpdateDate"></span></td>						
 						</tr>						
 					</table>
 				</div>

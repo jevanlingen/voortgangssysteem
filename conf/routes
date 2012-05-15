@@ -14,6 +14,7 @@ POST	/saveSetting:id							controllers.DashboardSettings.saveSetting(id: Long)
 
 #Widgets
 GET		/FuoVoortgangsrapportage/:id			controllers.Widget.getFuoVoortgangsrapportage(id: Long)
+GET		/SonarInformations/:id					controllers.Widget.getSonarInformation(id: Long)
 GET		/FuoModules/:id							controllers.Widget.getFuoModules(id: Long)
 GET		/widgets/:id							controllers.Widget.getWidgets(id: Long)
 

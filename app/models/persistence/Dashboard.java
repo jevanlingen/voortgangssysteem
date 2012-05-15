@@ -9,6 +9,7 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
+@SuppressWarnings("serial")
 public class Dashboard extends Model {
 
 	@Id
@@ -19,18 +20,16 @@ public class Dashboard extends Model {
 	@Column(unique = true)
 	private String label;
 
-	@Column(name = "project_manager")
 	private String projectManager;
 
-	public static Finder<Long, Dashboard> find = new Finder<Long, Dashboard>(
-			Long.class, Dashboard.class);
+	public static final Finder<Long, Dashboard> FIND = new Finder<Long, Dashboard>(Long.class, Dashboard.class);
 
 	public static List<Dashboard> all() {
-		return find.all();
+		return FIND.all();
 	}
 
 	public static Dashboard getDashboard(Long id) {
-		return find.byId(id);
+		return FIND.byId(id);
 	}
 
 	public static void create(Dashboard dashboard) {
@@ -67,7 +66,7 @@ public class Dashboard extends Model {
 	}
 
 	public static void validate(Form<Dashboard> form) {
-		if (find.where().eq("label", form.data().get("label")).findList().size() > 0) {
+		if (FIND.where().eq("label", form.data().get("label")).findList().size() > 0) {
 			form.reject("label", "Naam bestaat al");
 		}
 	}
